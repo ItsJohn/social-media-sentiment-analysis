@@ -7,3 +7,4 @@ handler/classifiers/sentiment_files/
 
 frontend/node_modules
 frontend/app/vendor
+frontend/app/test/coverage
