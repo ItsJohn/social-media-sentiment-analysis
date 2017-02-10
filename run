@@ -1,0 +1,38 @@
+#!/bin/bash
+
+function tab() {
+  osascript \
+    -e "tell application \"Terminal\"" \
+    -e "tell application \"System Events\" to keystroke \"t\" using {command down}" \
+    -e "do script \"$1\" in front window" \
+    -e "end tell" > /dev/null
+}
+
+case "$1" in
+      functional:tests)
+            tab 'cd frontend && gulp'
+            tab 'webdriver-manager start'
+            sleep 20
+            protractor ./frontend/app/test/conf.js
+            ;;
+      unit:tests)
+            cd frontend
+            npm test
+            ;;
+      backend)
+            cd backend
+            python3 api.py
+            ;;
+      frontend)
+            cd frontend
+            gulp
+            ;;
+      train)
+            cd backend
+            python3 train_classifier.py
+            ;;
+      *)
+            tab 'cd frontend && gulp'
+	    cd backend
+            python3 api.py
+esac

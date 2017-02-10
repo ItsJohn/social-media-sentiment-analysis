@@ -1,0 +1,27 @@
+$button-color: #152133
+$font-color: #cac8c8
+.search_term_container
+      @extend .centerScreen
+      height: 100%
+      width: 100%
+      .searchForm
+            width: 100%
+            input
+                  width: 30%
+            .search_term
+                  background-color: $button-color
+                  width: 100px
+                  color: $font-color
+                  margin-top: 10px
+                  text-align: center
+                  padding: 5px
+                  cursor: pointer
+                  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif
+      .trends
+            width: 90%
+            height: 10%
+            overflow-y: scroll
+            color: white
+            text-align: center
+            .words
+                  cursor: pointer

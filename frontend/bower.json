@@ -1,0 +1,30 @@
+{
+  "name": "sentiment-analysis",
+  "description": "sentimentAnalysis",
+  "main": "gulpfile.js",
+  "authors": [
+    "John Kelly"
+  ],
+  "license": "ISC",
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "app/vendor"
+  ],
+  "dependencies": {
+    "angular": "^1.5.5",
+    "angular-route": "^1.5.5",
+    "lodash": "4.11.1",
+    "bootstrap": "^3.3.6"
+  },
+  "resolutions": {
+    "angular": "1.5.5"
+  },
+  "devDependencies": {
+    "d3": "3.5.17",
+    "font-awesome": "^4.7.0",
+    "angular-loading-spinner": "^0.0.3",
+    "d3-cloud": "^1.2.2"
+  }
+}

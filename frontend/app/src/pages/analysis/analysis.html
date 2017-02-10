@@ -1,0 +1,9 @@
+<h1 class="term">{{term}}</h1>
+<graph data="data"></graph>
+<span us-spinner="{ radius: 12, width: 2, length: 8, color: 'white' }" spinner-on="showLoading"></span>
+<pieChart data="pie" radius="50" ng-show="!showLoading"></pieChart>
+<div class="tweets">
+      <div class="well" ng-repeat="tweet in tweets" ng-class="tweet['sentiment']">
+            <span >{{tweet['text']}}</span>
+      </div>
+</div>
