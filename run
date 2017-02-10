@@ -9,11 +9,15 @@ function tab() {
 }
 
 case "$1" in
-      functional:tests)
+      setup:functional:tests)
             tab 'cd frontend && gulp'
             tab 'webdriver-manager start'
             sleep 20
-            protractor ./frontend/app/test/conf.js
+            echo "Please wait..."
+            protractor ./frontend/test/conf.js
+            ;;
+      functional:tests)
+            protractor ./frontend/test/conf.js
             ;;
       unit:tests)
             cd frontend
