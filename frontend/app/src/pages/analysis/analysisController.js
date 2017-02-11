@@ -4,14 +4,24 @@
       angular.module('sentimentAnalysis.page')
             .controller('analysisController', analysisController);
 
-      analysisController.$inject = ['$scope', 'analysisService'];
-      function analysisController($scope, analysisService) {
+      analysisController.$inject = ['$scope', '$location', 'analysisService'];
+      function analysisController($scope, $location, analysisService) {
             var vm = $scope,
+                  positive,
+                  negative,
                   data = analysisService.getData();
 
-            vm.tweets = data['data']['tweets'];
-            vm.term = _.startCase(data['term']);
-            console.log(data);
+            vm.showLoading = true;
+            
+            if(_.isUndefined(data['term'])) {
+                  $location.path('home');
+            } else {
+                  vm.tweets = data['data']['tweets'];
+                  vm.term = _.startCase(data['term']);
+                  positive = data['data']['sentiment']['positive'];
+                  negative = data['data']['sentiment']['negative'];
+            }
+
             vm.data = [
             {x: 0, y: 5},
             {x: 1, y: 8},
@@ -35,17 +45,18 @@
             {x: 19, y: 30},
             {x: 20, y: 32}
             ];
-            vm.showLoading = true;
+
             vm.pie = [{
                         'name': 'positive',
-                        'value': data['data']['sentiment']['positive'],
+                        'value': positive | 0,
                         'color': '#0f0f86'
                   }, {
                         'name': 'negative',
-                        'value': data['data']['sentiment']['negative'],
+                        'value': negative | 0,
                         'color': '#860f26'
                   }
-            ]
+            ];
+
             vm.showLoading = false;
       }
 })();

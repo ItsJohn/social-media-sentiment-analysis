@@ -8,8 +8,8 @@
       function pieChartController($scope, d3) {
             var vm = $scope,
                   radius = vm.radius | _.min([vm.width, vm.height]) / 2,
-                  height = _.max([vm.height, vm.radius]) | 250,
-                  width = _.max([vm.width, vm.radius]) | 500,
+                  height = vm.radius * 2,
+                  width = vm.radius * 2,
 
                   margin = {
                         top: 20,

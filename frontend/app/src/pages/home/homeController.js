@@ -17,10 +17,10 @@
                         analysisService.setData(data['data'], term);
                         $location.path('analysis')
                   });
-            }
+            };
 
             vm.searchTerm = function() {
                   vm.showMeThisSentiment(vm.term);
-            }
+            };
       }
 })();
