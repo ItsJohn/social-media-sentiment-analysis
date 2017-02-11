@@ -31,6 +31,10 @@ case "$1" in
             cd frontend
             gulp
             ;;
+      download)
+            cd backend
+            python3 download_tweets.py
+            ;;
       train)
             cd backend
             python3 train_classifier.py
