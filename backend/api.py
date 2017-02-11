@@ -4,33 +4,36 @@ from requests import put, get
 from flask_restful import Resource, Api
 from flask_cors import CORS, cross_origin
 
-import handler.db as db
 from handler.utils.twitter_api import query_twitter_for_tweets
 from handler.utils.tweet_utils import extract_tweet
 from handler.sentiment import classify_tweets
+from handler.utils.twitter_api import search_auth
+import handler.db as db
 
 app = Flask(__name__)
 CORS(app)
-api = restful.Api(app)
+api = Api(app)
 
 
-class Keywords(restful.Resource):
+class Keywords(Resource):
+
     def get(self):
         keywords = db.get_keywords()
         return keywords
 
 
-class GetTotalSentimentValue(restful.Resource):
+class GetTotalSentimentValue(Resource):
+
     def get(self, term):
         stats = db.retrieve_tweets(term)
         if stats['total'] is 0:
             data = extract_tweet(
-                query_twitter_for_tweets(term)['statuses'],
+                query_twitter_for_tweets(term, auth=search_auth())['statuses'],
                 term
             )
-            db.insert_data(data)
-            classify_tweets(data)
-            stats = db.retrieve_tweets(term)
+            stats = classify_tweets(data)
+            db.insert_data(stats)
+            stats = db.format_data(stats)
         return stats
 
 

@@ -35,8 +35,40 @@ def insert_sentiment(tweetID, sentiment, confidence):
     })
 
 
+def format_time(tweets):
+    new_tweets = []
+    for tweet in tweets:
+        tweet['timestamp'] = str(tweet['timestamp'])
+        new_tweets.append(tweet)
+    return new_tweets
+
+
+def format_data(tweets):
+    pos_count = 0
+    neg_count = 0
+    new_tweets = []
+    for tweet in tweets:
+        if '_id' in tweet:
+            del tweet['_id']
+        tweet['timestamp'] = str(tweet['timestamp'])
+        if tweet['sentiment'] == 'positive':
+            pos_count = pos_count + 1
+        else:
+            neg_count = neg_count + 1
+        new_tweets.append(tweet)
+
+    return {
+        'total': pos_count + neg_count,
+        'sentiment': {
+            'positive': pos_count,
+            'negative': neg_count
+        },
+        'tweets': new_tweets
+    }
+
+
 def get_keyword_tweets(term):
-    tweets = list(collections.find({
+    return format_time(list(collections.find({
         'sentiment': {
             '$exists': True
         },
@@ -44,12 +76,7 @@ def get_keyword_tweets(term):
         'confidence': 1
     }, {
         '_id': False
-    }))
-    new_tweets = []
-    for tweet in tweets:
-        tweet['timestamp'] = str(tweet['timestamp'])
-        new_tweets.append(tweet)
-    return new_tweets
+    })))
 
 
 def get_keywords():
@@ -75,35 +102,20 @@ def get_keywords():
 
 
 def get_tweets_sentiments(term):
-    tweets = list(collections.find({
-            'keyword': term,
-            'sentiment': {
+    return list(collections.find({
+        'keyword': term,
+        'sentiment': {
                 '$exists': True
-            }
-        }, {
-            'sentiment': 1,
-            'confidence': 1,
-            '_id': 0
-        }
+                }
+    }, {
+        'sentiment': 1,
+        'confidence': 1,
+        '_id': 0
+    }
     ))
-    pos_count = 0
-    neg_count = 0
-    for tweet in tweets:
-        if tweet['sentiment'] == 'positive':
-            pos_count = pos_count + 1
-        else:
-            neg_count = neg_count + 1
-
-    return pos_count, neg_count
 
 
 def retrieve_tweets(term):
-    pos_count, neg_count = get_tweets_sentiments(term)
-    return {
-        'total': pos_count + neg_count,
-        'sentiment': {
-            'positive': pos_count,
-            'negative': neg_count
-        },
-        'tweets': get_keyword_tweets(term)
-    }
+    # sentiment = get_tweets_sentiments(term)
+    tweets = get_keyword_tweets(term)
+    return format_data(tweets)
