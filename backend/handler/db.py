@@ -24,7 +24,7 @@ def get_data_for_sentiment():
     }))
 
 
-def insert_sentiment(tweetID, sentiment, confidence):
+def insert_sentiment(tweetID, sentiment: str, confidence):
     collections.update({
         '_id': tweetID
     }, {
@@ -35,7 +35,7 @@ def insert_sentiment(tweetID, sentiment, confidence):
     })
 
 
-def format_time(tweets):
+def format_time(tweets: list):
     new_tweets = []
     for tweet in tweets:
         tweet['timestamp'] = str(tweet['timestamp'])
@@ -43,7 +43,7 @@ def format_time(tweets):
     return new_tweets
 
 
-def format_data(tweets):
+def format_data(tweets: list):
     pos_count = 0
     neg_count = 0
     new_tweets = []
@@ -67,7 +67,7 @@ def format_data(tweets):
     }
 
 
-def get_keyword_tweets(term):
+def get_keyword_tweets(term: str):
     return format_time(list(collections.find({
         'sentiment': {
             '$exists': True
@@ -101,7 +101,7 @@ def get_keywords():
     return new_keywords
 
 
-def get_tweets_sentiments(term):
+def get_tweets_sentiments(term: str):
     return list(collections.find({
         'keyword': term,
         'sentiment': {
@@ -115,7 +115,6 @@ def get_tweets_sentiments(term):
     ))
 
 
-def retrieve_tweets(term):
-    # sentiment = get_tweets_sentiments(term)
+def retrieve_tweets(term: str):
     tweets = get_keyword_tweets(term)
     return format_data(tweets)

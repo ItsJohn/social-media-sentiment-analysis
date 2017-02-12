@@ -1,7 +1,9 @@
 from slackclient import SlackClient
 from re import findall
 
-sc = SlackClient("""xoxp-113334704304-114716829062-136564333234-c7062029b92267c3a4360ee3d55fd385""")
+sc = SlackClient(
+    """xoxp-113334704304-114716829062-136564333234-
+        c7062029b92267c3a4360ee3d55fd385""")
 
 
 def send_error_message(message: str):

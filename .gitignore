@@ -15,3 +15,6 @@ backend/handler/utils/pickle/
 
 backend/handler/utils/.cache
 backend/handler/classifiers/.cache
+
+backend/test/*.pyc
+backend/handler/*.pyc

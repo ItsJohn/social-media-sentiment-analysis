@@ -18,7 +18,7 @@ def load_all_classifier():
 voted_classifier = VoteClassifier(load_all_classifier())
 
 
-def classify_tweets(data):
+def classify_tweets(data: list):
     new_tweets = []
     for tweet in data:
         feats = format_data(tweet['text'])
@@ -28,13 +28,14 @@ def classify_tweets(data):
     return new_tweets
 
 
-def classify_and_store_tweets(data):
+def classify_and_store_tweets(data: list):
     for tweet in data:
         feats = format_data(tweet['text'])
+        classification, confidence = voted_classifier.confidence(feats)
         insert_sentiment(
             tweet['_id'],
-            voted_classifier.classify(feats),
-            voted_classifier.confidence(feats)
+            classification,
+            confidence
         )
 
 
@@ -43,6 +44,6 @@ def find_sentiment():
     classify_and_store_tweets(data)
 
 
-def sentiment(text):
+def sentiment(text: str):
     feats = format_data(text)
-    return voted_classifier.classify(feats), voted_classifier.confidence(feats)
+    return voted_classifier.confidence(feats)
