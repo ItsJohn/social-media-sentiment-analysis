@@ -23,6 +23,10 @@ case "$1" in
             cd frontend
             npm test
             ;;
+      backend:tests)
+            cd backend
+            python3 -m unittest discover --pattern "*_test.py"
+            ;;
       backend)
             cd backend
             python3 api.py
