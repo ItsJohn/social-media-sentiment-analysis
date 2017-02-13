@@ -1,1 +1,4 @@
-{"directory": "app/vendor"}
+{
+      "directory": "app/vendor",
+      "allow_root": true
+}
