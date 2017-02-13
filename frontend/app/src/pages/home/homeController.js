@@ -20,7 +20,9 @@
             };
 
             vm.searchTerm = function() {
-                  vm.showMeThisSentiment(vm.term);
+                  if(!_.isUndefined(vm.term)) {
+                        vm.showMeThisSentiment(vm.term);
+                  }
             };
       }
 })();
