@@ -30,12 +30,13 @@ def open_files(sentiment, the_file):
 
 
 def check_if_words_exist_in_features(tweet):
-    words = set(tweet)
     feature = {}
-    for word in word_features:
-        feature[word] = False
-    for word in words:
-        feature[word] = (word in word_features)
+    if tweet:
+        words = set(tweet)
+        for word in word_features:
+            feature[word] = False
+        for word in words:
+            feature[word] = (word in word_features)
     return feature
 
 
