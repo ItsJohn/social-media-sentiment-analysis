@@ -2,6 +2,8 @@ backend/handler/__pycache__
 backend/handler/classifiers/__pycache__
 backend/handler/utils/__pycache__
 backend/test/__pycache__
+backend/test/classifiers/__pycache__
+
 handler/classifiers/sentiment_files/
 
 .DS_Store
@@ -10,7 +12,7 @@ frontend/node_modules
 frontend/app/vendor
 frontend/app/test/coverage
 
-backend/handler/utils/pickle/
+backend/handler/utils/pickle/*
 !backend/handler/utils/pickle/.gitkeep
 
 backend/handler/utils/.cache

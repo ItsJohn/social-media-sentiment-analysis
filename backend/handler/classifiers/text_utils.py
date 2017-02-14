@@ -4,18 +4,18 @@ from nltk.tokenize import TweetTokenizer
 from string import punctuation
 
 
-def strip_repetitions_letters(text):
+def strip_repetitions_letters(text: str) -> str:
     pattern = re.compile(r"(.)\1{1,}", re.DOTALL)
     return pattern.sub(r"\1\1", text)
 
 
-def eliminate_punctuation(text):
+def eliminate_punctuation(text: str) -> str:
     for c in punctuation:
         text = text.replace(c, "")
     return text
 
 
-def eliminate_stop_words(text):
+def eliminate_stop_words(text: str) -> list:
     filtered_sentence = []
     stop = set(stopwords.words('english'))
     word_tokens = TweetTokenizer().tokenize(text)
@@ -27,36 +27,11 @@ def eliminate_stop_words(text):
     return filtered_sentence
 
 
-# not used yet
-def remove_punctuation(words):
-    new_words = []
-    for word in words:
-        front = False
-        back = False
-        if word in punctuation:
-            word = ""
-        else:
-            while ((front is False) or (back is False)) and word is not "":
-                if front is False:
-                    if word[:1] in punctuation:
-                        word = word.replace(word[:1], "")
-                    else:
-                        front = True
-                if back is False:
-                    if word[-1:] in punctuation:
-                        word = word.replace(word[-1:], "")
-                    else:
-                        back = True
-        if word is not "":
-            new_words.append(word)
-    return new_words
-
-
-def process_text(text):
+def process_text(text: str) -> list:
     # Convert to lower case
     text = text.lower()
     # Removes @username
-    re.sub('@[^\s]+', '', text)
+    text = re.sub('@[^\s]+', '', text)
     # Remove additional white spaces
     text = re.sub('[\s]+', ' ', text)
     # Replace #word with word
@@ -67,6 +42,5 @@ def process_text(text):
     text = strip_repetitions_letters(text)
     # Removes the stop words
     text = eliminate_stop_words(text)
-    if text:
-        return text
-    return False
+
+    return text
