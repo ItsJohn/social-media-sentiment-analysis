@@ -25,7 +25,7 @@ case "$1" in
             ;;
       backend:tests)
             cd backend
-            python3 -m unittest discover --pattern "*_test.py"
+            python3 test.py
             ;;
       backend)
             cd backend
@@ -43,8 +43,12 @@ case "$1" in
             cd backend
             python3 train_classifier.py
             ;;
+      classify)
+            cd backend
+            python3 -c "from handler.sentiment import find_sentiment; find_sentiment()"
+            ;;
       *)
             tab 'cd frontend && gulp'
-	    cd backend
+            cd backend
             python3 api.py
 esac
