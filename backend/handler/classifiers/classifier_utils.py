@@ -7,7 +7,7 @@ from nltk.classify.scikitlearn import SklearnClassifier
 import os.path
 import pickle
 
-LOCATION = 'handler/classifiers/pickle/'
+PICKLE_PATH = 'handler/classifiers/pickle/'
 
 classifiers_names = ['MNB', 'BNB', 'LR', 'SGDC', 'LSVC']
 classifiers = {
@@ -24,8 +24,8 @@ def get_classifier_names():
 
 
 def load_classifier(name):
-    if os.path.isfile(LOCATION + name + '_classifier.pickle'):
-        with open(LOCATION + name + '_classifier.pickle', 'rb') as ph:
+    if os.path.isfile(PICKLE_PATH + name + '_classifier.pickle'):
+        with open(PICKLE_PATH + name + '_classifier.pickle', 'rb') as ph:
             classifier = pickle.load(ph)
     else:
         classifier = SklearnClassifier(classifiers[name])
