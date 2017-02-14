@@ -6,7 +6,7 @@ from flask_cors import CORS, cross_origin
 
 from handler.utils.twitter_api import query_twitter_for_tweets
 from handler.utils.tweet_utils import extract_tweet
-from handler.sentiment import classify_tweets
+from handler.classifiers.sentiment import classify_data
 from handler.utils.twitter_api import search_auth
 import handler.db as db
 
@@ -31,7 +31,7 @@ class GetTotalSentimentValue(Resource):
                 query_twitter_for_tweets(term, auth=search_auth())['statuses'],
                 term
             )
-            stats = classify_tweets(data)
+            stats = classify_data(data)
             db.insert_data(stats)
             stats = db.format_data(stats)
         return stats

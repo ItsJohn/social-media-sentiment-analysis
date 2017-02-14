@@ -16,7 +16,7 @@ def insert_data(data):
             e
 
 
-def get_data_for_sentiment():
+def get_data_for_sentiment() -> list:
     return list(collections.find({
         'sentiment': {
             '$exists': False
@@ -35,7 +35,7 @@ def insert_sentiment(tweetID, sentiment: str, confidence):
     })
 
 
-def format_time(tweets: list):
+def format_time(tweets: list) -> list:
     new_tweets = []
     for tweet in tweets:
         tweet['timestamp'] = str(tweet['timestamp'])
@@ -43,7 +43,7 @@ def format_time(tweets: list):
     return new_tweets
 
 
-def format_data(tweets: list):
+def format_data(tweets: list) -> dict:
     pos_count = 0
     neg_count = 0
     new_tweets = []
@@ -67,7 +67,7 @@ def format_data(tweets: list):
     }
 
 
-def get_keyword_tweets(term: str):
+def get_keyword_tweets(term: str) -> list:
     return format_time(list(collections.find({
         'sentiment': {
             '$exists': True
@@ -79,7 +79,7 @@ def get_keyword_tweets(term: str):
     })))
 
 
-def get_keywords():
+def get_keywords() -> list:
     keywords = list(collections.aggregate([{
         '$match': {
             'sentiment': {
@@ -101,7 +101,7 @@ def get_keywords():
     return new_keywords
 
 
-def get_tweets_sentiments(term: str):
+def get_tweets_sentiments(term: str) -> list:
     return list(collections.find({
         'keyword': term,
         'sentiment': {
@@ -115,6 +115,6 @@ def get_tweets_sentiments(term: str):
     ))
 
 
-def retrieve_tweets(term: str):
+def retrieve_tweets(term: str) -> dict:
     tweets = get_keyword_tweets(term)
     return format_data(tweets)

@@ -21,6 +21,8 @@ def strip_json_from_tweet(data, keyword):
     tweet['favourite'] = data['favorite_count']
     tweet['retweet'] = data['retweet_count']
     tweet['keyword'] = keyword.lower()
+    if data['coordinates']:
+        tweet['coordinates'] = data['coordinates']['coordinates']
 
     return tweet
 

@@ -15,7 +15,7 @@ def send_error_message(message: str):
     )
 
 
-def format_report(data: dict):
+def format_report(data: dict) -> list:
     formatted_report = []
     for key in data:
         formatted_report.append({
