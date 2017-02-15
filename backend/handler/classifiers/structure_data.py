@@ -17,7 +17,7 @@ if os.path.isfile(PICKLE_PATH + 'all_words.pickle'):
     word_features.extend(old_words)
 
 
-def open_files(sentiment, the_file):
+def open_files(sentiment: str, the_file: str) -> tuple:
     all_data = []
     all_words = []
     with open(the_file) as fh:
@@ -29,7 +29,7 @@ def open_files(sentiment, the_file):
     return all_data, all_words
 
 
-def check_if_words_exist_in_features(data):
+def check_if_words_exist_in_features(data: list) -> dict:
     feature = {}
     if data:
         new_features = word_features[:floor(len(word_features) / 2)]
@@ -40,7 +40,7 @@ def check_if_words_exist_in_features(data):
     return feature
 
 
-def manipulate_data(all_data):
+def manipulate_data(all_data: list) -> list:
     shuffle(all_data)
 
     print('Recognizing words...')
@@ -51,7 +51,11 @@ def manipulate_data(all_data):
     return featuresets
 
 
-def getData(**kwargs):
+def getData(**kwargs) -> list:
+    """
+        This is used to create the categories for the classifiers
+        Example: getData(positive='PATH_TO_FILE', negative='PATH_TO_FILE')
+    """
     all_data = []
     print('Loading data from file...')
     for sentiment, file_name in kwargs.items():
@@ -67,5 +71,6 @@ def getData(**kwargs):
     return manipulate_data(all_data)
 
 
-def format_data(data):
+def format_data(data: str) -> dict:
+    print(data)
     return check_if_words_exist_in_features(process_text(data))

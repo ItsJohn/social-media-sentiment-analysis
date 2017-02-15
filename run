@@ -25,7 +25,7 @@ case "$1" in
             ;;
       backend:tests)
             cd backend
-            python3 test.py
+            python3 test.py -b
             ;;
       backend)
             cd backend
@@ -46,6 +46,10 @@ case "$1" in
       classify)
             cd backend
             python3 -c "from handler.sentiment import find_sentiment; find_sentiment()"
+            ;;
+      convertFile)
+            cd backend/handler/classifiers
+            python3 convert_training_data.py
             ;;
       *)
             tab 'cd frontend && gulp'
