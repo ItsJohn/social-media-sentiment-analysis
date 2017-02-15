@@ -9,16 +9,8 @@ from os import path
 class Structure_data_test(unittest.TestCase):
 
     def setUp(self):
-        sd.PICKLE_PATH = 'test/classifiers/'
-        with open(sd.PICKLE_PATH + 'all_words.pickle', 'w') as fh:
-            print(['different', 'word', 'sentence'], file=fh)
+        sd.PICKLE_PATH = 'test/mock/'
         sd.word_features = ['different', 'word', 'sentence']
-        with open('test.txt', 'w') as fh:
-            print('This is a sentence in a file', file=fh)
-
-    def tearDown(self):
-        remove("test.txt")
-        remove(sd.PICKLE_PATH + "all_words.pickle")
 
     def test_manipulate_data(self):
         data = [(['This', 'sentence', 'important'], 'nuetral')]
@@ -51,11 +43,14 @@ class Structure_data_test(unittest.TestCase):
             )],
             ['sentence', 'file']
         )
-        self.assertTrue(path.exists('test.txt'))
-        self.assertEqual(sd.open_files('positive', 'test.txt'), format_data)
+        self.assertTrue(path.exists(sd.PICKLE_PATH + 'test.txt'))
+        self.assertEqual(
+            sd.open_files('positive', sd.PICKLE_PATH + 'test.txt'),
+            format_data
+        )
 
     def test_process_text(self):
-        data = 'test.txt'
+        data = sd.PICKLE_PATH + 'test.txt'
         format_data = [({
             'sentence': False,
             'file': False,
@@ -79,6 +74,7 @@ class Structure_data_test(unittest.TestCase):
                 sd.getData(positive=data, negative=data)
             ), format_data
         )
+        remove(sd.PICKLE_PATH + "all_words.pickle")
 
     def test_format_data(self):
         data = "This sentence is important"
