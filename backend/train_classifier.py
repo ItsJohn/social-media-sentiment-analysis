@@ -12,10 +12,15 @@ from handler.classifiers.classifier_utils import get_classifier_names
 from handler.classifiers.classifier_utils import load_classifier
 
 
-FILE_NUMBER = 5
-POSFILE = 'handler/classifiers/sentiment_files/pos' + str(file_number) + '.txt'
-NEGFILE = 'handler/classifiers/sentiment_files/neg' + str(file_number) + '.txt'
+FILE_NUMBER = 1
+
 PICKLE_PATH = './handler/classifiers/pickle/'
+
+POSFILE = 'handler/classifiers/new_s_files/positive' + str(file_number) + '.txt'
+NEGFILE = 'handler/classifiers/new_s_files/negative' + str(file_number) + '.txt'
+NEUFILE = 'handler/classifiers/new_s_files/neutral' + str(file_number) + '.txt'
+
+data = getData(positive=POSFILE, negative=NEGFILE, nuetral=NEUFILE)
 
 
 def test_classifier(name, classifier, data):
@@ -24,8 +29,6 @@ def test_classifier(name, classifier, data):
     if name is "Final":
         send_completed_message(percentage)
 
-
-data = getData(POSFILE, NEGFILE)
 
 divide = int(floor(len(data) / 2))
 training_set = np.array(data[:divide])

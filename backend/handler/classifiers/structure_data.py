@@ -51,14 +51,13 @@ def manipulate_data(all_data):
     return featuresets
 
 
-def getData(positive_file, negative_file):
+def getData(**kwargs):
+    all_data = []
     print('Loading data from file...')
-    all_data, all_words = open_files('positive', positive_file)
-    data, words = open_files('negative', negative_file)
-    all_data.extend(data)
-    all_words.extend(words)
-
-    word_features.extend(all_words)
+    for sentiment, file_name in kwargs.items():
+        data, all_words = open_files(sentiment, file_name)
+        all_data.extend(data)
+        word_features.extend(all_words)
 
     # Get the most used from all the words
     known_words = list(FreqDist(word_features).keys())
