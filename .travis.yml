@@ -23,5 +23,6 @@ before_script:
   - 'cd ..'
 
 script:
-  - 'python3 backend/test.py'
+  - 'cd backend && python3 test.py -b'
+  - 'cd ..'
   - 'cd frontend && npm test'
