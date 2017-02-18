@@ -1,4 +1,4 @@
 (function () {
-'use strict';
-angular.module('sentimentAnalysis.feature',  []);
+      'use strict';
+      angular.module('sentimentAnalysis.feature',  []);
 })();

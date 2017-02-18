@@ -15,7 +15,7 @@
             vm.showMeThisSentiment = function(term) {
                   homeService.getSentiment(term).then(function(data) {
                         analysisService.setData(data['data'], term);
-                        $location.path('analysis')
+                        $location.path('analysis');
                   });
             };
 

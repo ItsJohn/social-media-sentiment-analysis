@@ -4,7 +4,7 @@
   "description": "",
   "main": "app/index.html",
   "scripts": {
-    "test": "karma start ./test/karma.conf.js"
+    "test": "karma start ./test/karma.conf.js && ./node_modules/eslint/bin/eslint.js app/"
   },
   "author": "John Kelly",
   "license": "ISC",
@@ -13,6 +13,7 @@
     "bower": "^1.7.9",
     "gulp": "^3.9.1",
     "gulp-connect": "^4.0.0",
+    "gulp-eslint": "^3.0.1",
     "jasmine-core": "^2.5.2",
     "karma": "^0.13.22",
     "karma-coverage": "^1.0.0",
@@ -23,6 +24,7 @@
     "selenium-server-standalone-jar": "^3.0.1"
   },
   "devDependencies": {
+    "eslint": "^3.15.0",
     "gulp-angular-protractor": "^0.1.1",
     "gulp-concat": "^2.6.0",
     "gulp-imagemin": "^3.0.2",

@@ -12,7 +12,7 @@
                   data = analysisService.getData();
 
             vm.showLoading = true;
-            
+
             if(_.isUndefined(data['term'])) {
                   $location.path('home');
             } else {
@@ -47,15 +47,14 @@
             ];
 
             vm.pie = [{
-                        'name': 'positive',
-                        'value': positive | 0,
-                        'color': '#0f0f86'
-                  }, {
-                        'name': 'negative',
-                        'value': negative | 0,
-                        'color': '#860f26'
-                  }
-            ];
+                  'name': 'positive',
+                  'value': positive | 0,
+                  'color': '#0f0f86'
+            }, {
+                  'name': 'negative',
+                  'value': negative | 0,
+                  'color': '#860f26'
+            }];
 
             vm.showLoading = false;
       }
