@@ -5,7 +5,6 @@ from twitter_api import oAuth
 from tweet_utils import extract_tweet, format_json
 
 
-
 # override StreamListener to add logic to on_status
 class listener(StreamListener):
     def on_status(self, tweet):

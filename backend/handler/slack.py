@@ -20,7 +20,7 @@ def format_report(data: dict) -> list:
     for key in data:
         formatted_report.append({
             'text': key + ': ' + str(data[key]),
-            'color':  'good' if data[key] > 50 else 'danger'
+            'color': 'good' if data[key] > 50 else 'danger'
         })
     return formatted_report
 

@@ -12,15 +12,17 @@ from handler.classifiers.classifier_utils import get_classifier_names
 from handler.classifiers.classifier_utils import load_classifier
 
 
-FILE_NUMBER = 1
+FILE_NUMBER = 4
+DIR = 'handler/classifiers/'
+NEW_SENTIMENT_FOLDER = 'sentiment_files/'
 
-PICKLE_PATH = './handler/classifiers/pickle/'
 
-POSFILE = 'handler/classifiers/new_s_files/positive' + str(file_number) + '.txt'
-NEGFILE = 'handler/classifiers/new_s_files/negative' + str(file_number) + '.txt'
-NEUFILE = 'handler/classifiers/new_s_files/neutral' + str(file_number) + '.txt'
+POSFILE = DIR + NEW_SENTIMENT_FOLDER + 'pos' + str(FILE_NUMBER) + '.txt'
+NEGFILE = DIR + NEW_SENTIMENT_FOLDER + 'neg' + str(FILE_NUMBER) + '.txt'
 
-data = getData(positive=POSFILE, negative=NEGFILE, nuetral=NEUFILE)
+PICKLE_PATH = DIR + 'pickle/'
+
+data = getData(positive=POSFILE, negative=NEGFILE)
 
 
 def test_classifier(name, classifier, data):
@@ -30,24 +32,51 @@ def test_classifier(name, classifier, data):
         send_completed_message(percentage)
 
 
-divide = int(floor(len(data) / 2))
-training_set = np.array(data[:divide])
-testing_set = np.array(data[divide:])
+def train_classifiers(data):
+    for name in get_classifier_names():
+        classifier = load_classifier(name)
+        print('Training', name, '...')
+        classifier.train(data)
+        with open(
+            PICKLE_PATH + name + '_classifier.pickle',
+            'wb'
+        ) as ph:
+            pickle.dump(classifier, ph)
+
+
+def validate_classifiers(data):
+    kfold = model_selection.KFold(n_splits=10, shuffle=True, random_state=7)
+    for name in get_classifier_names():
+        classifier = load_classifier(name)
+        print('Training and testing', name, '...')
+        for traincv, testcv in kfold.split(data):
+            classifier.train(data[traincv])
+            test_classifier(name, classifier, data[testcv])
+        with open(
+            PICKLE_PATH + name + '_classifier.pickle',
+            'wb'
+        ) as ph:
+            pickle.dump(classifier, ph)
+
+
+training_divide = int(floor(len(data) * 0.6))
+cv_test_divide = int(floor(len(data) * 0.2))
 
 print('Prepare training data...')
+training_set = np.array(data[:training_divide])
+cross_validation_set = np.array(
+    data[training_divide: training_divide + cv_test_divide]
+)
+testing_set = np.array(data[training_divide + cv_test_divide:])
+
+
+train_classifiers(training_set)
+validate_classifiers(cross_validation_set)
+
+
 new_models = []
-kfold = model_selection.KFold(n_splits=10, shuffle=True, random_state=7)
 for name in get_classifier_names():
     classifier = load_classifier(name)
-    print('Training and testing', name, '...')
-    for traincv, testcv in kfold.split(training_set):
-        classifier.train(training_set[traincv])
-        test_classifier(name, classifier, training_set[testcv])
-    with open(
-        PICKLE_PATH + name + '_classifier.pickle',
-        'wb'
-    ) as ph:
-        pickle.dump(classifier, ph)
     new_models.append(classifier)
 
 print('Voting on classifier prediction...')
