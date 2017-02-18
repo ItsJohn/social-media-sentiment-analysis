@@ -7,7 +7,7 @@
       function pieChart() {
             function link(scope) {
                   scope.startPie();
-            };
+            }
             return {
                   restrict: 'E',
                   scope: {

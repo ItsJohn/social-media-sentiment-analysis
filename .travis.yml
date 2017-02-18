@@ -2,22 +2,24 @@ language: python
 
 python:
       - "3.5"
-node_js:
-      - "0.12"
-
+env:
+  - NODE_VERSION=4.0.0
 before_script:
-  - 'cd backend && pip3 install -r requirements.txt'
+  - 'cd backend'
+  - 'pip3 install -r requirements.txt'
   - 'python3 -m nltk.downloader stopwords'
   - 'python3 -m nltk.downloader punkt'
   - 'cd ../frontend'
+  - nvm install $NODE_VERSION
+  - npm install -g npm@'>=3.0.0'
   - 'npm config set python python2.7'
-  - 'npm install -g gulp'
   - 'npm install -g bower'
   - 'npm install -g karma'
   - 'npm install -g jasmine-core'
   - 'npm install -g karma-jasmine'
   - 'npm install -g karma-coverage'
   - 'npm install -g karma-phantomjs-launcher'
+  - 'npm install eslint'
   - 'npm install angular-mocks'
   - 'bower install'
   - 'cd ..'

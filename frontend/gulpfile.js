@@ -7,6 +7,7 @@ var gulp = require('gulp'),
       concat = require('gulp-concat'),
       rename = require('gulp-rename'),
       imageMin = require('gulp-imagemin'),
+      eslint = require('gulp-eslint'),
       _ = require('lodash'),
       srcFile = {
             js: './app/src/**/*.js',
@@ -27,6 +28,12 @@ var gulp = require('gulp'),
             '!./app/vendor/**'
       ];
 
+      gulp.task('lint', function () {
+            return gulp.src(['./app/**/*.js'])
+                  .pipe(eslint())
+                  .pipe(eslint.format())
+                  .pipe(eslint.failAfterError());
+      });
       gulp.task('minifyjs', function() {
             return gulp.src(_.concat([srcFile.js, './app/app.js'], excludeFiles))
                   .pipe(concat('scripts.min.js'))

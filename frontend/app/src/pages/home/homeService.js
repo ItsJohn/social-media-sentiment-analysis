@@ -11,20 +11,20 @@
                   return $http({
                         method: 'GET',
                         url: url,
-                        dataType: "json"
+                        dataType: 'json'
                   }).then(function (response) {
                         return response;
-                  })
+                  });
             };
             this.getSentiment = function(term) {
                   var url = constants.local_url + 'getTotalSentiment/' + window.encodeURIComponent(term);
                   return $http({
                         method: 'GET',
                         url: url,
-                        dataType: "json"
+                        dataType: 'json'
                   }).then(function (response) {
                         return response;
-                  })
+                  });
             };
-      };
+      }
 })();

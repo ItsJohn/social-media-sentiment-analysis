@@ -1,0 +1,31 @@
+{
+      "env": {
+            "browser": true
+      },
+      "globals": {
+            "angular": 1,
+            "_": 1,
+            "describe": 1,
+            "it": 1,
+            "beforeEach": 1,
+            "module": 1,
+            "inject": 1,
+            "spyOn": 1
+      },
+      "extends": "eslint:recommended",
+      "rules": {
+            "indent": [
+                  "error",
+                  6
+            ],
+            "linebreak-style": 0,
+            "quotes": [
+                  "error",
+                  "single"
+            ],
+            "semi": [
+                  "error",
+                  "always"
+            ]
+      }
+}

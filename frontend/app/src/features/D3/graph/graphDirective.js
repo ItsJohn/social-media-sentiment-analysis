@@ -7,7 +7,7 @@
       function graph() {
             function link(scope) {
                   scope.controller();
-            };
+            }
             return {
                   restrict: 'E',
                   scope: {

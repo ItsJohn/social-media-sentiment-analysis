@@ -23,6 +23,9 @@ case "$1" in
             cd frontend
             npm test
             ;;
+      eslint)
+            eslint app/
+            ;;
       backend:tests)
             cd backend
             python3 test.py -b
