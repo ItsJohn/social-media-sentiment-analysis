@@ -41,7 +41,7 @@
 
                   vm.element.append('g')
                         .attr('class', 'x axis')
-                        .attr('transform', 'translate(0,\' + height + \')')
+                        .attr('transform', 'translate(0,' + height + ')')
                         .call(xAxis);
 
                   vm.element.append('g')
