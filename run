@@ -48,7 +48,7 @@ case "$1" in
             ;;
       classify)
             cd backend
-            python3 -c "from handler.sentiment import find_sentiment; find_sentiment()"
+            python3 -c "from handler.classifiers.sentiment import find_sentiment; find_sentiment()"
             ;;
       convertFile)
             cd backend/handler/classifiers
