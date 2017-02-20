@@ -8,7 +8,7 @@ db = client['tweetsDB']
 collections = db['tweets']
 
 
-def insert_data(data):
+def insert_data(data: str):
     for tweet in data:
         try:
             collections.insert_one(tweet)
@@ -24,8 +24,8 @@ def get_data_for_sentiment() -> list:
     }))
 
 
-def insert_sentiment(tweetID, sentiment: str, confidence):
-    collections.update({
+def insert_sentiment(tweetID: int, sentiment: str, confidence: float):
+    collections.update_one({
         '_id': tweetID
     }, {
         '$set': {
@@ -47,6 +47,7 @@ def format_data(tweets: list) -> dict:
     pos_count = 0
     neg_count = 0
     new_tweets = []
+    coordinates = []
     for tweet in tweets:
         if '_id' in tweet:
             del tweet['_id']
@@ -55,6 +56,11 @@ def format_data(tweets: list) -> dict:
             pos_count = pos_count + 1
         else:
             neg_count = neg_count + 1
+        if 'coordinates' in tweet:
+            coordinates.append({
+                'lng': tweet['coordinates'][0],
+                'lat': tweet['coordinates'][1]
+            })
         new_tweets.append(tweet)
 
     return {
@@ -63,6 +69,7 @@ def format_data(tweets: list) -> dict:
             'positive': pos_count,
             'negative': neg_count
         },
+        'coordinates': coordinates,
         'tweets': new_tweets
     }
 
@@ -99,20 +106,6 @@ def get_keywords() -> list:
     for keyword in keywords:
         new_keywords.append(keyword['_id'])
     return new_keywords
-
-
-def get_tweets_sentiments(term: str) -> list:
-    return list(collections.find({
-        'keyword': term,
-        'sentiment': {
-                '$exists': True
-                }
-    }, {
-        'sentiment': 1,
-        'confidence': 1,
-        '_id': 0
-    }
-    ))
 
 
 def retrieve_tweets(term: str) -> dict:
