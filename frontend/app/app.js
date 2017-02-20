@@ -8,7 +8,8 @@
             'sentimentAnalysis.feature',
             'sentimentAnalysis.constant',
             'd3Module',
-            'ngLoadingSpinner'
+            'ngLoadingSpinner',
+            'leaflet-directive'
       ])
       .config([
             '$locationProvider',

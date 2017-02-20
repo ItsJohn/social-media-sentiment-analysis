@@ -1,9 +1,16 @@
 <h1 class="term">{{term}}</h1>
-<graph data="data"></graph>
-<span us-spinner="{ radius: 12, width: 2, length: 8, color: 'white' }" spinner-on="showLoading"></span>
-<pieChart data="pie" radius="100" ng-show="!showLoading"></pieChart>
-<div class="tweets">
-      <div class="well" ng-repeat="tweet in tweets" ng-class="tweet['sentiment']">
-            <span >{{tweet['text']}}</span>
+<div class="graphContainer">
+      <graph data="data"></graph>
+      <pieChart data="pie" radius="100" ng-show="!showLoading"></pieChart>
+
+
+      <span us-spinner="{ radius: 12, width: 2, length: 8, color: 'white' }" spinner-on="showLoading"></span>
+
+      <leaflet class="map" lf-center="center" paths="paths" ng-show="showMap"></leaflet>
+
+      <div class="tweets">
+            <div class="well" ng-repeat="tweet in tweets" ng-class="tweet['sentiment']">
+                  <span >{{tweet['text']}}</span>
+            </div>
       </div>
 </div>
