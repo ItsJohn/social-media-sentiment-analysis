@@ -9,13 +9,13 @@ from handler.utils.curr_time import get_hour
 from handler.utils.curr_time import get_minute
 from handler.utils.tweet_utils import extract_tweet
 from handler.utils.twitter_api import query_twitter_for_tweets
-from handler.sentiment import find_sentiment
+from handler.classifiers.sentiment import find_sentiment
 
 from handler.slack import send_error_message
 from handler.slack import send_report
 from handler.db import insert_data
 
-
+PICKLE_PATH = 'handler/utils/pickle/'
 trends = load_trends_from_pickle()
 time = {
     'hour': get_hour(),
@@ -23,24 +23,29 @@ time = {
 }
 
 
-def set_pagination(tweets, trend, index):
+def set_pagination(tweets: list, trend: dict, index: int) -> dict:
     if len(tweets) != 0:
         if 'since_id' not in trend or tweets[0]['id'] > trend['since_id']:
+            # since_id is the newest tweet
             trend['since_id'] = tweets[0]['id']
         if 'max_id' not in trend or tweets[-1]['id'] < trend['max_id']:
+            # max_id is the oldest tweet
             trend['max_id'] = tweets[-1]['id']
     if 'use_since' in trend and trend['use_since'] and index == 0:
+        # sets the current minute to check against if a half hour has passed
+        # to check for new tweets
         time['minute'] = get_minute()
-    trends[index]['use_since'] = check_minute(time['minute'])
+    trend['use_since'] = check_minute(time['minute'])
+    return trend
 
 
-def exit_program(error):
-    with open('handler/utils/pickle/trends.pickle', 'wb') as ph:
+def exit_program(error: str):
+    with open(PICKLE_PATH + 'trends.pickle', 'wb') as ph:
         pickle.dump(trends, ph)
     send_error_message(error)
 
 
-def download_tweet(trend):
+def download_tweet(trend: dict) -> dict:
     max_id = None
     since_id = None
     use_since = False
@@ -77,7 +82,11 @@ def retrieve_tweets(trends):
         if check_hour(time['hour']):
             trends = check_if_trends_already_exist(trends)
 
-        set_pagination(new_tweets['statuses'], trends[index], index)
+        trends[index] = set_pagination(
+            new_tweets['statuses'],
+            trends[index],
+            index
+        )
 
         # Process tweet
         new_tweets = extract_tweet(
