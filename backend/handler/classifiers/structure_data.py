@@ -72,5 +72,4 @@ def getData(**kwargs) -> list:
 
 
 def format_data(data: str) -> dict:
-    print(data)
     return check_if_words_exist_in_features(process_text(data))
