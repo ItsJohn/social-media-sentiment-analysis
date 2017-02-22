@@ -7,6 +7,7 @@ var gulp = require('gulp'),
       concat = require('gulp-concat'),
       rename = require('gulp-rename'),
       imageMin = require('gulp-imagemin'),
+      webserver = require('gulp-webserver'),
       eslint = require('gulp-eslint'),
       _ = require('lodash'),
       srcFile = {
@@ -34,6 +35,15 @@ var gulp = require('gulp'),
                   .pipe(eslint.format())
                   .pipe(eslint.failAfterError());
       });
+
+      gulp.task('webserver', function() {
+            gulp.src('app')
+                  .pipe(webserver({
+                        host: '0.0.0.0',
+                        port: 6639
+                  }));
+      });
+
       gulp.task('minifyjs', function() {
             return gulp.src(_.concat([srcFile.js, './app/app.js'], excludeFiles))
                   .pipe(concat('scripts.min.js'))
