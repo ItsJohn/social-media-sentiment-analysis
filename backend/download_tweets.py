@@ -70,17 +70,13 @@ def retrieve_tweets(trends):
     loopIndex = 0
 
     while(True):
-        loopIndex = loopIndex + 1
-        if loopIndex % 450 is 0:
+        if index is 450:
             print('Classifying tweets...')
             find_sentiment()
         new_tweets = download_tweet(trends[index])
 
         if type(new_tweets) is not dict:
             exit_program(str(new_tweets))
-
-        if check_hour(time['hour']):
-            trends = check_if_trends_already_exist(trends)
 
         trends[index] = set_pagination(
             new_tweets['statuses'],
@@ -97,8 +93,12 @@ def retrieve_tweets(trends):
         insert_data(new_tweets)
 
         # Select next trend
-        index = (index + 1) % len(trends)
-        print(loopIndex, len(new_tweets), trends[index]['formatted_word'])
+        if check_hour(time['hour']):
+            trends = check_if_trends_already_exist(trends)
+            index = 0
+        else:
+            index = (index + 1) % len(trends)
+        print(index, len(new_tweets), trends[index]['formatted_word'])
 
 
 try:
