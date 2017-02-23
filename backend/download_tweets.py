@@ -70,9 +70,10 @@ def retrieve_tweets(trends):
     loopIndex = 0
 
     while(True):
-        if index is 450:
+        if loopIndex is 450:
             print('Classifying tweets...')
             find_sentiment()
+            loopIndex = 0
         new_tweets = download_tweet(trends[index])
 
         if type(new_tweets) is not dict:
@@ -98,7 +99,8 @@ def retrieve_tweets(trends):
             index = 0
         else:
             index = (index + 1) % len(trends)
-        print(index, len(new_tweets), trends[index]['formatted_word'])
+        loopIndex = loopIndex + 1
+        print(loopIndex, len(new_tweets), trends[index]['formatted_word'])
 
 
 try:
