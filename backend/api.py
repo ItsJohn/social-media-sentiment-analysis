@@ -1,5 +1,4 @@
 from flask import Flask, session
-from flask.ext import restful
 from requests import put, get
 from flask_restful import Resource, Api
 from flask_cors import CORS, cross_origin
