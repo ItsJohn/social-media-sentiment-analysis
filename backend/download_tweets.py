@@ -70,7 +70,7 @@ def retrieve_tweets(trends):
     loopIndex = 0
 
     while(True):
-        if loopIndex is 450:
+        if loopIndex == 450:
             print('Classifying tweets...')
             find_sentiment()
             loopIndex = 0
