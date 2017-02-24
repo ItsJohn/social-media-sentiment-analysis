@@ -95,6 +95,7 @@ def retrieve_tweets(trends):
 
         # Select next trend
         if check_hour(time['hour']):
+            time['hour'] = get_hour()
             trends = check_if_trends_already_exist(trends)
             index = 0
         else:
