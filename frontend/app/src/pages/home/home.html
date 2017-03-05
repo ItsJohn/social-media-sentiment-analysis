@@ -1,11 +1,16 @@
 
 <div class="search_term_container">
       <div class="trends">
-            <span ng-repeat="trend in trends" ng-show="true" ng-click="showMeThisSentiment(trend)" class="words"> {{trend}} | </span>
-            <span us-spinner="{ radius: 12, width: 2, length: 8, color: 'white' }" spinner-on="true"></span>
+            <span ng-repeat="trend in trends" ng-show="true" ng-click="keywordSentiment(trend['term'])" class="words" style="color: {{trend['color']}}"> {{trend['term']}} | </span>
       </div>
       <form class="centerScreen searchForm">
-            <input id="searchTerm" type="text" placeholder="Search Term" class="form-control" ng-model="term" />
+            <div class="platformContainer">
+                  <label ng-repeat="platform in platforms" class="platform">
+                        <input type="radio" ng-model="term.platform" value="{{platform}}" name="chosenPlatform" />{{platform}}
+                  </label>
+            </div>
+
+            <input id="searchTerm" type="text" placeholder="Search Term" class="form-control" ng-model="term.word" />
             <input type="submit" id="search_term_button" ng-click="searchTerm()" class="search_term" value="Search Term" />
       </form>
 

@@ -17,11 +17,15 @@
                   });
             };
             this.getSentiment = function(term) {
-                  var url = constants.local_url + 'getTotalSentiment/' + window.encodeURIComponent(term);
+                  var url = constants.local_url + 'retrieveSentimentData';
                   return $http({
                         method: 'GET',
                         url: url,
-                        dataType: 'json'
+                        dataType: 'json',
+                        params: {
+                              term: term.word,
+                              platform: term.platform
+                        }
                   }).then(function (response) {
                         return response;
                   });
