@@ -37,10 +37,15 @@ def query_twitter_for_tweets(
     since_id=None,
     max_id=None,
     use_since_id=False,
-    auth=appAuth()
+    auth=None
 ):
     new_tweets = []
     TWEET_PER_QUERY = 100
+    if auth == 'search':
+        auth = search_auth()
+    else:
+        auth = appAuth()
+
     try:
         if max_id is None:
             if since_id is None:

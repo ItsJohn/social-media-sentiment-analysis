@@ -1,22 +1,21 @@
 import sys
 import pickle
 
-from handler.utils.trends import load_trends_from_pickle
-from handler.utils.trends import check_if_trends_already_exist
-from handler.utils.curr_time import check_hour
-from handler.utils.curr_time import check_minute
-from handler.utils.curr_time import get_hour
-from handler.utils.curr_time import get_minute
-from handler.utils.tweet_utils import extract_tweet
-from handler.utils.twitter_api import query_twitter_for_tweets
-from handler.classifiers.sentiment import find_sentiment
+from platform_utils import classify_post
+from handler.twitter.trends import load_trends_from_pickle
+from handler.twitter.trends import check_if_trends_already_exist
+from handler.twitter.curr_time import check_hour
+from handler.twitter.curr_time import check_minute
+from handler.twitter.curr_time import get_hour
+from handler.twitter.curr_time import get_minute
+from handler.twitter.tweet_utils import extract_tweet
+from handler.twitter.twitter_api import query_twitter_for_tweets
 
 from handler.slack import send_error_message
 from handler.slack import send_report
 from handler.db import insert_data
 
 PICKLE_PATH = 'handler/utils/pickle/'
-trends = load_trends_from_pickle()
 time = {
     'hour': get_hour(),
     'minute': get_minute()
@@ -39,7 +38,7 @@ def set_pagination(tweets: list, trend: dict, index: int) -> dict:
     return trend
 
 
-def exit_program(error: str):
+def exit_program(error: str, trends: list):
     with open(PICKLE_PATH + 'trends.pickle', 'wb') as ph:
         pickle.dump(trends, ph)
     send_error_message(error)
@@ -56,28 +55,31 @@ def download_tweet(trend: dict) -> dict:
     if 'use_since' in trend:
         user_since = trend['use_since']
 
-    new_tweets = query_twitter_for_tweets(
+    return query_twitter_for_tweets(
         trend['search_word'],
         since_id,
         max_id,
-        use_since
+        use_since,
+        'search'
     )
-    return new_tweets
 
 
-def retrieve_tweets(trends):
+def retrieve_tweets():
+    trends = load_trends_from_pickle()
     index = 0
     loopIndex = 0
 
     while(True):
         if loopIndex == 450:
             print('Classifying tweets...')
-            find_sentiment()
+            classify_post()
             loopIndex = 0
+
         new_tweets = download_tweet(trends[index])
 
         if type(new_tweets) is not dict:
-            exit_program(str(new_tweets))
+            exit_program(str(new_tweets), trends)
+            break
 
         trends[index] = set_pagination(
             new_tweets['statuses'],
@@ -102,10 +104,3 @@ def retrieve_tweets(trends):
             index = (index + 1) % len(trends)
         loopIndex = loopIndex + 1
         print(loopIndex, len(new_tweets), trends[index]['formatted_word'])
-
-
-try:
-    retrieve_tweets(trends)
-except KeyboardInterrupt:
-    exit_program('Someone broke me')
-    sys.exit(0)

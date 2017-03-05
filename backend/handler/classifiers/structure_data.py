@@ -32,11 +32,10 @@ def open_files(sentiment: str, the_file: str) -> tuple:
 def check_if_words_exist_in_features(data: list) -> dict:
     feature = {}
     if data:
-        new_features = word_features[:floor(len(word_features) / 2)]
-        for word in new_features:
+        for word in word_features:
             feature[word] = False
         for word in set(data):
-            feature[word] = (word in new_features)
+            feature[word] = (word in word_features)
     return feature
 
 
@@ -56,6 +55,7 @@ def getData(**kwargs) -> list:
         This is used to create the categories for the classifiers
         Example: getData(positive='PATH_TO_FILE', negative='PATH_TO_FILE')
     """
+    global word_features
     all_data = []
     print('Loading data from file...')
     for sentiment, file_name in kwargs.items():
@@ -64,9 +64,11 @@ def getData(**kwargs) -> list:
         word_features.extend(all_words)
 
     # Get the most used from all the words
-    known_words = list(FreqDist(word_features).keys())
+    word_features = list(
+        FreqDist(word_features).keys()
+    )[:floor(len(word_features) / 2)]
     with open(PICKLE_PATH + 'all_words.pickle', 'wb') as ph:
-        pickle.dump(known_words, ph)
+        pickle.dump(word_features, ph)
 
     return manipulate_data(all_data)
 
