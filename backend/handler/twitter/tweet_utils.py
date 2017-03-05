@@ -15,12 +15,13 @@ def extract_tweet(data, keyword):
 
 def strip_json_from_tweet(data, keyword):
     tweet = {}
-    tweet['name'] = data['user']['name']
+    tweet['tweetID'] = data['id']
+    tweet['platform'] = 'Twitter'
     tweet['text'] = remove_url(data['text'])
     tweet['timestamp'] = date_created(data['created_at'])
     tweet['favourite'] = data['favorite_count']
     tweet['retweet'] = data['retweet_count']
-    tweet['keyword'] = keyword.lower()
+    tweet['keyword'] = keyword
     if data['coordinates']:
         tweet['coordinates'] = data['coordinates']['coordinates']
 
@@ -29,7 +30,7 @@ def strip_json_from_tweet(data, keyword):
 
 def date_created(date):
     date_time_format = datetime.strptime(date, '%a %b %d %X %z %Y')
-    return date_time_format.replace(tzinfo=None)
+    return str(date_time_format.replace(tzinfo=None))
 
 
 def remove_url(text):

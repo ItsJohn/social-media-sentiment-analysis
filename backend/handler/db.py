@@ -1,21 +1,23 @@
+from handler.db_utils import format_data
 import json
 import pymongo
 
 
 client = pymongo.MongoClient()
-db = client['tweetsDB']
-collections = db['tweets']
+db = client['opinionMiningDB']
+collections = db['post']
 
 
 def insert_data(data: str):
-    for tweet in data:
+    for element in data:
         try:
-            collections.insert_one(tweet)
+            collections.insert_one(element)
         except Exception as e:
             e
 
 
 def get_data_for_sentiment() -> list:
+    """ Retrieves all post without a sentiment """
     return list(collections.find({
         'sentiment': {
             '$exists': False
@@ -23,9 +25,9 @@ def get_data_for_sentiment() -> list:
     }))
 
 
-def insert_sentiment(tweetID: int, sentiment: str, confidence: float):
+def insert_sentiment(postID: int, sentiment: str, confidence: float):
     collections.update_one({
-        '_id': tweetID
+        '_id': postID
     }, {
         '$set': {
             'sentiment': sentiment,
@@ -34,58 +36,37 @@ def insert_sentiment(tweetID: int, sentiment: str, confidence: float):
     })
 
 
-def format_time(tweets: list) -> list:
-    new_tweets = []
-    for tweet in tweets:
-        tweet['timestamp'] = str(tweet['timestamp'])
-        new_tweets.append(tweet)
-    return new_tweets
-
-
-def format_data(tweets: list) -> dict:
-    pos_count = 0
-    neg_count = 0
-    new_tweets = []
-    coordinates = []
-    for tweet in tweets:
-        if '_id' in tweet:
-            del tweet['_id']
-        tweet['timestamp'] = str(tweet['timestamp'])
-        if tweet['sentiment'] == 'positive':
-            pos_count = pos_count + 1
-        else:
-            neg_count = neg_count + 1
-        if 'coordinates' in tweet:
-            coordinates.append({
-                'lng': tweet['coordinates'][0],
-                'lat': tweet['coordinates'][1]
-            })
-        new_tweets.append(tweet)
-
-    return {
-        'total': pos_count + neg_count,
-        'sentiment': {
-            'positive': pos_count,
-            'negative': neg_count
-        },
-        'coordinates': coordinates,
-        'tweets': new_tweets
-    }
-
-
-def get_keyword_tweets(term: str) -> list:
-    return format_time(list(collections.find({
+def retrieve_keyword_post_with_platform(term: str, platform: str) -> list:
+    """ Retrieves post associated with a keyword
+        with a sentiment with a specific platform"""
+    return list(collections.find({
         'sentiment': {
             '$exists': True
         },
         'keyword': term,
-        'confidence': 1
+        'platform': platform
     }, {
-        '_id': False
-    })))
+        '_id': False,
+        'tweetID': False
+    }))
+
+
+def retrieve_keyword_post_without_platform(term: str) -> list:
+    """ Retrieves post associated with a keyword
+        with a sentiment with no specific platform """
+    return list(collections.find({
+        'sentiment': {
+            '$exists': True
+        },
+        'keyword': term
+    }, {
+        '_id': False,
+        'tweetID': False
+    }))
 
 
 def get_keywords() -> list:
+    """ Retrieves Keywords with associated sentiments """
     keywords = list(collections.aggregate([{
         '$match': {
             'sentiment': {
@@ -107,6 +88,9 @@ def get_keywords() -> list:
     return new_keywords
 
 
-def retrieve_tweets(term: str) -> dict:
-    tweets = get_keyword_tweets(term)
-    return format_data(tweets)
+def retrieve_post(term: str, platform: str) -> dict:
+    if platform == 'All':
+        data = retrieve_keyword_post_without_platform(term)
+    else:
+        data = retrieve_keyword_post_with_platform(term, platform)
+    return format_data(data)

@@ -16,19 +16,21 @@ class Structure_data_test(unittest.TestCase):
         data = [(['This', 'sentence', 'important'], 'nuetral')]
         format_data = [({
             'This': False,
-            'sentence': False,
-            'different': False,
-            'important': False
+            'sentence': True,
+            'word': False,
+            'important': False,
+            'different': False
         }, 'nuetral')]
         self.assertEqual(sd.manipulate_data(data), format_data)
 
     def test_check_if_words_exist_in_features(self):
         data = ['This', 'sentence', 'important']
         format_data = {
+            'sentence': True,
+            'important': False,
             'This': False,
-            'sentence': False,
-            'different': False,
-            'important': False
+            'word': False,
+            'different': False
         }
         self.assertEqual(
             sd.check_if_words_exist_in_features(data),
@@ -49,38 +51,44 @@ class Structure_data_test(unittest.TestCase):
             format_data
         )
 
-    def test_process_text(self):
-        data = sd.PICKLE_PATH + 'test.txt'
-        format_data = [({
-            'sentence': False,
-            'file': False,
-            'word': False,
-            'different': False
-        }, 'positive')]
-        self.assertEqual(sd.getData(positive=data), format_data)
-        format_data = [({
-            'different': False,
-            'file': False,
-            'word': False,
-            'sentence': True
-        }, 'negative'), ({
-            'different': False,
-            'file': False,
-            'word': False,
-            'sentence': True
-        }, 'positive')]
-        self.assertEqual(
-            sort_tuple_list(
-                sd.getData(positive=data, negative=data)
-            ), format_data
-        )
-        remove(sd.PICKLE_PATH + "all_words.pickle")
+    # def test_getData(self):
+    #     data = sd.PICKLE_PATH + 'test.txt'
+    #     sd.word_features = ['different', 'word', 'sentence']
+    #     format_data = [({
+    #         'file': True,
+    #         'different': False,
+    #         'sentence': False
+    #     }, 'positive')]
+    #     print(sd.getData(positive=data))
+    #     self.assertEqual(
+    #         sd.getData(positive=data),
+    #         format_data
+    #     )
+        # format_data = [({
+        #     'different': False,
+        #     'file': False,
+        #     'word': False,
+        #     'sentence': True
+        # }, 'negative'), ({
+        #     'different': False,
+        #     'file': False,
+        #     'word': False,
+        #     'sentence': True
+        # }, 'positive')]
+        # print(sort_tuple_list(sd.getData(positive=data, negative=data)))
+        # self.assertEqual(
+        #     sort_tuple_list(
+        #         sd.getData(positive=data, negative=data)
+        #     ), format_data
+        # )
+        # remove(sd.PICKLE_PATH + "all_words.pickle")
 
     def test_format_data(self):
         data = "This sentence is important"
         format_data = {
-            'important': False,
             'different': False,
-            'sentence': False
+            'important': False,
+            'sentence': True,
+            'word': False
         }
         self.assertEqual(sd.format_data(data), format_data)

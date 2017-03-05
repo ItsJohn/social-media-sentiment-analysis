@@ -3,7 +3,7 @@ from pytrends.request import TrendReq
 import os.path
 import pickle
 
-from handler.utils.twitter_api import appAuth
+from handler.twitter.twitter_api import appAuth
 from handler.slack import send_report
 
 GOOGLE_USER = {
