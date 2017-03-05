@@ -9,7 +9,13 @@ import pickle
 
 PICKLE_PATH = 'handler/classifiers/pickle/'
 
-classifiers_names = ['MNB', 'BNB', 'LR', 'SGDC', 'LSVC']
+classifiers_names = [
+    'Multinomial_Naive_Bayes',
+    'Bernoulli_Naive_Bayes',
+    'Logistic_Regression',
+    'Stochastic_Gradient_Descent',
+    'Linear_SVM'
+]
 classifiers = {
     classifiers_names[0]: MultinomialNB(),
     classifiers_names[1]: BernoulliNB(),
