@@ -44,39 +44,22 @@
                   vm.showMap = false;
             }
 
-
-            vm.data = [
-                  {x: 0, y: 5},
-                  {x: 1, y: 8},
-                  {x: 2, y: 13},
-                  {x: 3, y: 12},
-                  {x: 4, y: 16},
-                  {x: 5, y: 21},
-                  {x: 6, y: 18},
-                  {x: 7, y: 23},
-                  {x: 8, y: 24},
-                  {x: 9, y: 28},
-                  {x: 10, y: 35},
-                  {x: 11, y: 30},
-                  {x: 12, y: 32},
-                  {x: 13, y: 36},
-                  {x: 14, y: 40},
-                  {x: 15, y: 38},
-                  {x: 16, y: 24},
-                  {x: 17, y: 28},
-                  {x: 18, y: 35},
-                  {x: 19, y: 30},
-                  {x: 20, y: 32}
-            ];
+            vm.data = [];
+            _.forEach(data['tweets'], function(tweet) {
+                  vm.data.push({
+                        'x': new Date(tweet['timestamp']),
+                        'y': tweet['retweet']
+                  });
+            });
 
             vm.pie = [{
                   'name': 'positive',
                   'value': positive | 0,
-                  'color': '#0f0f86'
+                  'color': '#2F47FF'
             }, {
                   'name': 'negative',
                   'value': negative | 0,
-                  'color': '#860f26'
+                  'color': '#FF4D3C'
             }];
 
             vm.showLoading = false;
