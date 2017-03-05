@@ -1,7 +1,9 @@
 $homeBackground: rgba(255, 255, 255, 0.5)
 
-$positive-colour: #0f0f86
-$negative-colour: #860f26
+$positive-colour: #2F47FF
+$negative-colour: #FF4D3C
+$background-color: #F5F5F5
+$text-color: #C7D0D5
 
 @import "extend.sass"
 @import "mixin.sass"
@@ -14,7 +16,6 @@ $negative-colour: #860f26
       padding: 0
 
 body
-      background-image: url("img/background.jpeg")
       background-position: center
       background-size: cover
       background-repeat: no-repeat
@@ -22,7 +23,8 @@ body
 
 .container
       width: 100%
-      background-color: rgba(0,0,0,0.45)
+      background-color: $background-color
+      color: $text-color
 
 .centerScreen
       display: flex
