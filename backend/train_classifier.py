@@ -12,13 +12,13 @@ from handler.classifiers.classifier_utils import get_classifier_names
 from handler.classifiers.classifier_utils import load_classifier
 
 
-FILE_NUMBER = 4
+FILE_NUMBER = 1
 DIR = 'handler/classifiers/'
-NEW_SENTIMENT_FOLDER = 'sentiment_files/'
+NEW_SENTIMENT_FOLDER = DIR + 'sentiment_files/'
 
 
-POSFILE = DIR + NEW_SENTIMENT_FOLDER + 'pos' + str(FILE_NUMBER) + '.txt'
-NEGFILE = DIR + NEW_SENTIMENT_FOLDER + 'neg' + str(FILE_NUMBER) + '.txt'
+POSFILE = NEW_SENTIMENT_FOLDER + 'pos' + str(FILE_NUMBER) + '.txt'
+NEGFILE = NEW_SENTIMENT_FOLDER + 'neg' + str(FILE_NUMBER) + '.txt'
 
 PICKLE_PATH = DIR + 'pickle/'
 
@@ -59,20 +59,10 @@ def validate_classifiers(data):
             pickle.dump(classifier, ph)
 
 
-training_divide = int(floor(len(data) * 0.6))
-cv_test_divide = int(floor(len(data) * 0.2))
-
 print('Prepare training data...')
-training_set = np.array(data[:training_divide])
-cross_validation_set = np.array(
-    data[training_divide: training_divide + cv_test_divide]
-)
-testing_set = np.array(data[training_divide + cv_test_divide:])
-
-
-train_classifiers(training_set)
-validate_classifiers(cross_validation_set)
-
+cv_test_split = int(floor(len(data) * 0.5))
+cross_validation_set = np.array(data[:cv_test_split])
+testing_set = np.array(data[cv_test_split:])
 
 new_models = []
 for name in get_classifier_names():
