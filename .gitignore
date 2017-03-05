@@ -1,7 +1,7 @@
 backend/__pycache__
 backend/handler/__pycache__
 backend/handler/classifiers/__pycache__
-backend/handler/utils/__pycache__
+backend/handler/twitter/__pycache__
 backend/test/__pycache__
 backend/test/classifiers/__pycache__
 
