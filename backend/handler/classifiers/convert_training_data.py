@@ -12,19 +12,16 @@ import os
 #       the file is mapped to the name for the converted file
 
 
-FILE_NAME = 'Twitter-sentiment-self-drive-DFE.csv'
-SENTIMENT_COLUMN = 5
-TEXT_COLUMN = 10
-DIR = 'five_category_sentiment/'
+FILE_NAME = 'Coachella-2015-2-DFE.csv'
+SENTIMENT_COLUMN = 0
+TEXT_COLUMN = 4
+DIR = 'coachella' + '/'
 SENTENCES_PER_FILE = 5000
-HAS_TABLE_HEADER = False
+HAS_TABLE_HEADER = True
 SENTIMENT = {
-    '5': 'very_positive',
     '4': 'positive',
-    '3': 'nuetral',
     '2': 'negative',
-    '1': 'very_negative',
-    'not_relevant': 'not_relevant'
+    '0': 'neutral'
 }
 
 
@@ -38,7 +35,7 @@ def open_file():
             yield line
 
 
-def store_data(sentiment):
+def store_data(sentiment: dict) -> dict:
     sentiment['count'] = sentiment['count'] + 1
     with open(
         DIR + sentiment['label'] + str(sentiment['count']) + '.txt',
@@ -50,22 +47,23 @@ def store_data(sentiment):
     return sentiment
 
 
-def seperateWords(data):
+def seperateWords(data: list):
     global all_data
 
-    if data[SENTIMENT_COLUMN] in all_data:
-        sentiment = all_data[data[SENTIMENT_COLUMN]]
-        sentiment['text'].append(data[TEXT_COLUMN])
-        if len(sentiment['text']) == SENTENCES_PER_FILE:
-            all_data[data[SENTIMENT_COLUMN]] = store_data(
-                sentiment
-            )
-    else:
-        all_data[data[SENTIMENT_COLUMN]] = {
-            'text': [data[TEXT_COLUMN]],
-            'count': 0,
-            'label': SENTIMENT[data[SENTIMENT_COLUMN]]
-        }
+    if data[SENTIMENT_COLUMN] in SENTIMENT:
+        if data[SENTIMENT_COLUMN] in all_data:
+            sentiment = all_data[data[SENTIMENT_COLUMN]]
+            sentiment['text'].append(data[TEXT_COLUMN])
+            if len(sentiment['text']) == SENTENCES_PER_FILE:
+                all_data[data[SENTIMENT_COLUMN]] = store_data(
+                    sentiment
+                )
+        else:
+            all_data[data[SENTIMENT_COLUMN]] = {
+                'text': [data[TEXT_COLUMN]],
+                'count': 0,
+                'label': SENTIMENT[data[SENTIMENT_COLUMN]]
+            }
 
 
 if not os.path.exists(DIR):
@@ -74,7 +72,7 @@ if not os.path.exists(DIR):
 
 row_number = 0
 for sentence in open_file():
-    if not HAS_TABLE_HEADER and row_number is not 0:
+    if not HAS_TABLE_HEADER or row_number is not 0:
         seperateWords(sentence)
     else:
         row_number = row_number + 1
