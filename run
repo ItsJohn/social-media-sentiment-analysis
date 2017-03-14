@@ -58,6 +58,26 @@ case "$1" in
             cd backend/handler/classifiers
             python3 convert_training_data.py
             ;;
+      help)
+            echo ""
+            echo "./run - To run start the frontend and backend locally"
+            echo "./run server - To run the web server to be viewed $(dig +short myip.opendns.com @resolver1.opendns.com):6639"
+            echo "./run frontend - To start a local frontend server"
+            echo "./run backend - To start the backend server"
+            echo "./run download - To start the download of your specific platform"
+            echo "./run train - To train the machine learning algorithms"
+            echo "./run classify - To classify new posts"
+            echo "./run convertFile - To convert files for the algorithms to learn from"
+            echo ""
+            echo "To run tests"
+            echo "----------------"
+            echo "./run setup:functional:tests - To start all the frontend services for the functional tests"
+            echo "./run functional:tests - To run the frontend functional tests (when services are already started)"
+            echo "./run unit:tests - To run the frontend unit tests"
+            echo "./run eslint - To run the frontend style guide tests"
+            echo "./run backend:tests - To run the backend unit tests"
+            echo ""
+            ;;
       *)
             tab 'cd frontend && gulp'
             cd backend
