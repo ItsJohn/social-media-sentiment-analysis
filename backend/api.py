@@ -35,6 +35,7 @@ class GetTotalSentimentValue(Resource):
         args = parser.parse_args()
         term = parse.unquote(args['term'])
         stats = db.retrieve_post(term, args['platform'])
+        print(term, args['platform'])
         if stats['total'] is 0:
             stats = download_posts(term, args['platform'])
         return stats

@@ -9,10 +9,6 @@
             var vm = $scope,
                   height = vm.height | 250,
                   width = vm.width | 500,
-                  date,
-                  padding = {
-                        left: 5
-                  },
                   margin = {
                         top: 20,
                         right: 100,
@@ -20,28 +16,20 @@
                         left: 30
                   };
 
-            function calculateRange() {
-                  return d3.max(vm.data, function(d){ return d.y; });
-            }
-
             function configureAxisScale(range) {
                   return d3.scale.linear()
-                        .domain([0, calculateRange()])
+                        .domain([0, vm.data['maxY']])
                         .range(range);
             }
 
             function configureDateRange() {
-                  var date = [];
-                  _.forEach(vm.data, function(data) {
-                        date.push(data['x']);
-                  });
-                  return [_.min(date), _.max(date)];
+                  return [vm.data['min'], vm.data['max']];
             }
 
             function configureDateAxisScale(range) {
-
                   return d3.time.scale()
                         .domain(configureDateRange())
+                        .nice(d3.time.minute)
                         .range(range);
             }
 
@@ -50,7 +38,6 @@
                   var xAxis = d3.svg.axis()
                         .scale(configureDateAxisScale([0, width]))
                         .orient('bottom')
-                        .innerTickSize(-height)
                         .outerTickSize(0)
                         .tickPadding(10);
 
@@ -62,13 +49,12 @@
                         .tickPadding(10);
 
                   vm.element.append('g')
-                        .attr('class', 'xaxis')
+                        .attr('class', 'x axis')
                         .attr('transform', 'translate(0,' + height + ')')
                         .call(xAxis);
 
                   vm.element.append('g')
                         .attr('class', 'y axis')
-                        .attr('transform', 'translate(' + padding.left + ',0)')
                         .call(yAxis);
             }
 
@@ -92,27 +78,25 @@
             }
 
             function rotateText() {
-                  vm.element.selectAll('.xaxis text')
+                  vm.element.selectAll('.x text')
                         .attr('transform', function() {
                               return 'translate(' + this.getBBox().height*-2 + ',' + this.getBBox().height + ')rotate(-45)';
                         });
             }
 
             function draw(){
-
+                  var date;
                   var line = d3.svg.line()
-                        .x(function(d) { return configureDateAxisScale([padding.left, width - margin.left], 'x')(d.x); })
-                        .y(function(d) { return configureAxisScale([height, 0], 'y')(d.y); });
+                        .interpolate('basis')
+                        .x(function(d) { return configureDateAxisScale([0, width])(d.x); })
+                        .y(function(d) { return configureAxisScale([height, 0])(d.y); });
 
-                  vm.element.append('path')
-                        .data([vm.data])
-                        .attr('class', 'line')
-                        .attr('d', line);
-
-                  vm.element.append('path')
-                        .data([vm.data])
-                        .attr('class', 'line')
-                        .attr('d', line);
+                  _.forEach(vm.data['lines'], function(value, sentiment) {
+                        vm.element.append('path')
+                              .data([value])
+                              .attr('class', sentiment)
+                              .attr('d', line);
+                  });
 
                   drawAxis();
                   rotateText();

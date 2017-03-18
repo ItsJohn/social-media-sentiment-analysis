@@ -13,13 +13,13 @@ class DB_test(unittest.TestCase):
             'sentiment': 'positive',
             'keyword': 'OpinionMiningTest',
             'platform': 'Twitter',
-            'timestamp': str(datetime(2017, 1, 1, 1, 11, 11, 387893))
+            'timestamp': str(datetime(2017, 1, 1, 1, 11, 11))
         }, {
             'text': 'This is another test',
             'sentiment': 'negative',
             'keyword': 'OpinionMiningTest',
             'platform': 'Facebook',
-            'timestamp': str(datetime(2017, 2, 1, 1, 11, 11, 387893))
+            'timestamp': str(datetime(2017, 2, 1, 1, 11, 11))
         }]
 
     def tearDown(self):
@@ -43,7 +43,7 @@ class DB_test(unittest.TestCase):
         new_data = [{
             'text': 'This is a new test',
             'keyword': 'OpinionMiningTest',
-            'timestamp': str(datetime(2017, 2, 1, 1, 11, 11, 387893))
+            'timestamp': str(datetime(2017, 2, 1, 1, 11, 11))
         }]
         self.assertEqual(len(db.get_data_for_sentiment()), 0)
         db.insert_data(new_data)
@@ -53,7 +53,7 @@ class DB_test(unittest.TestCase):
         new_data = [{
             'text': 'This is a new test',
             'keyword': 'OpinionMiningTest',
-            'timestamp': str(datetime(2017, 2, 1, 1, 11, 11, 387893))
+            'timestamp': str(datetime(2017, 2, 1, 1, 11, 11))
         }]
         db.insert_data(new_data)
         data = db.get_data_for_sentiment()
@@ -104,7 +104,7 @@ class DB_test(unittest.TestCase):
         formatted_data = [{
             'keyword': 'OpinionMiningTest',
             'text': 'This is a test',
-            'timestamp': '2017-01-01 01:11:11.387893',
+            'timestamp': '2017-01-01 01:11:11',
             'confidence': 1,
             'sentiment': 'positive',
             'platform': 'Twitter'
@@ -125,14 +125,14 @@ class DB_test(unittest.TestCase):
             'keyword': 'OpinionMiningTest',
             'platform': 'Twitter',
             'sentiment': 'positive',
-            'timestamp': '2017-01-01 01:11:11.387893',
+            'timestamp': '2017-01-01 01:11:11',
             'text': 'This is a test',
             'confidence': 1
         }, {
             'keyword': 'OpinionMiningTest',
             'platform': 'Facebook',
             'sentiment': 'negative',
-            'timestamp': '2017-02-01 01:11:11.387893',
+            'timestamp': '2017-02-01 01:11:11',
             'text': 'This is another test',
             'confidence': 0.8
         }]
@@ -150,26 +150,37 @@ class DB_test(unittest.TestCase):
     def test_retrieve_post(self):
         self.data[0]['confidence'] = 1
         formatted_data = {
-            'total': 2,
-            'sentiment': {
-                'positive': 1,
-                'negative': 1
+            'newest': '2017-02-01 01:11:11',
+            'latest': '2017-01-01 01:11:11',
+            'graph': {
+                'negative': [{
+                    'x': '2017-02-01 01:11:11',
+                    'y': 1
+                }],
+                'positive': [{
+                    'x': '2017-01-01 01:11:11', 'y': 1
+                }]
             },
             'coordinates': [],
+            'total': 2,
             'tweets': [{
-                'keyword': 'OpinionMiningTest',
+                'timestamp': '2017-01-01 01:11:11',
                 'text': 'This is a test',
                 'platform': 'Twitter',
-                'timestamp': '2017-01-01 01:11:11.387893',
-                'confidence': 1,
-                'sentiment': 'positive'
-            }, {
                 'keyword': 'OpinionMiningTest',
-                'text': 'This is another test',
+                'sentiment': 'positive',
+                'confidence': 1
+            }, {
+                'timestamp': '2017-02-01 01:11:11',
                 'platform': 'Facebook',
-                'timestamp': '2017-02-01 01:11:11.387893',
+                'text': 'This is another test',
+                'keyword': 'OpinionMiningTest',
                 'sentiment': 'negative'
-            }]
+            }],
+            'sentiment': {
+                'negative': 1,
+                'positive': 1
+            }
         }
         db.insert_data(self.data)
         self.assertEqual(
@@ -178,19 +189,26 @@ class DB_test(unittest.TestCase):
         )
         formatted_data = {
             'tweets': [{
-                'platform': 'Twitter',
-                'confidence': 1,
-                'text': 'This is a test',
                 'keyword': 'OpinionMiningTest',
+                'timestamp': '2017-01-01 01:11:11',
                 'sentiment': 'positive',
-                'timestamp': '2017-01-01 01:11:11.387893'
+                'platform': 'Twitter',
+                'text': 'This is a test',
+                'confidence': 1
             }],
+            'newest': '2017-01-01 01:11:11',
             'total': 1,
             'sentiment': {
-                'negative': 0,
                 'positive': 1
             },
-            'coordinates': []
+            'coordinates': [],
+            'graph': {
+                'positive': [{
+                    'x': '2017-01-01 01:11:11',
+                    'y': 1
+                }]
+            },
+            'latest': '2017-01-01 01:11:11'
         }
         self.assertEqual(
             db.retrieve_post('OpinionMiningTest', 'Twitter'),
