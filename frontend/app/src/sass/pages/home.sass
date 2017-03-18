@@ -1,25 +1,16 @@
-$button-color: #152133
-$font-color: #cac8c8
+
 .search_term_container
       @extend .centerScreen
-      height: 100%
-      width: 100%
+      height: $max-height
+      width: $max-width
       .searchForm
-            width: 100%
+            width: $max-width
             input
-                  width: 30%
-            .search_term
-                  background-color: $button-color
-                  width: 100px
-                  color: $font-color
-                  margin-top: 10px
-                  text-align: center
-                  padding: 5px
-                  cursor: pointer
-                  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif
+                  margin: $medium-margin
+                  width: $extra-large-width
       .trends
-            width: 90%
-            height: 10%
+            width: $near-max-width
+            height: $small-height
             overflow-y: scroll
             text-align: center
             .words
@@ -28,4 +19,12 @@ $font-color: #cac8c8
             white-space: nowrap
             .platform
                   display: block
-                  margin: 0
+                  margin: $reset-margin
+      .search_btn
+            padding: $medium-padding
+            color: white
+            border: thin black solid
+            background-color: $button-color
+            cursor: pointer
+            p
+                  margin: $reset-margin

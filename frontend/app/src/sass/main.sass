@@ -1,12 +1,25 @@
-$homeBackground: rgba(255, 255, 255, 0.5)
-
 $positive-colour: #2F47FF
 $negative-colour: #FF4D3C
 $background-color: #F5F5F5
-$text-color: #C7D0D5
+$text-color: rgba(13, 4, 13, 0.8)
+$button-color: #008080
+$font-color: #cac8c8
 
-@import "extend.sass"
-@import "mixin.sass"
+$max-height: 100%
+$small-height: 10%
+
+$max-width: 100%
+$near-max-width: 90%
+$extra-extra-large-width: 1000px
+$extra-large-width: 500px
+$large-width: 100px
+
+$large-margin: 50px
+$medium-margin: 10px
+$reset-margin: 0
+
+$medium-padding: 10px
+$small-padding: 5px
 
 @import "pages/home.sass"
 @import "pages/analysis.sass"
@@ -22,7 +35,7 @@ body
       background-attachment: fixed
 
 .container
-      width: 100%
+      width: $max-width
       background-color: $background-color
       color: $text-color
 
