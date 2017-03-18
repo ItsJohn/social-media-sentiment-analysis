@@ -8,14 +8,14 @@
             'sentimentAnalysis.feature',
             'sentimentAnalysis.constant',
             'd3Module',
-            'ngLoadingSpinner',
             'leaflet-directive'
       ])
       .config([
             '$locationProvider',
             '$routeProvider',
+            '$logProvider',
 
-            function($locationProvider, $routeProvider) {
+            function($locationProvider, $routeProvider, $logProvider) {
                   $locationProvider.hashPrefix('!');
                   $routeProvider
                   .when('/', {
@@ -29,6 +29,7 @@
                   .otherwise({
                         redirectTo: '/'
                   });
+                  $logProvider.debugEnabled(false);
             }
       ]);
 

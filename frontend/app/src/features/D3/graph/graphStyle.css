@@ -4,9 +4,15 @@
       stroke: black;
 }
 
-.line {
+.positive {
       fill: none;
       stroke: blue;
+      stroke-width: 2px;
+}
+
+.negative {
+      fill: none;
+      stroke: red;
       stroke-width: 2px;
 }
 

@@ -1,13 +1,20 @@
 <h1 class="term">{{term}}</h1>
 <div class="graphContainer">
+      <legend data='legend'></legend>
       <graph data="data" width="1000"></graph>
+      <p>
+            This is the trend overall
+      </p>
       <pieChart data="pie" radius="100" ng-show="!showLoading"></pieChart>
 
-
-      <span us-spinner="{ radius: 12, width: 2, length: 8, color: 'white' }" spinner-on="showLoading"></span>
-
+      <p ng-show="showMap">
+            The map below gives a sense of where in the world people are talking about this topic
+      </p>
       <leaflet class="map" lf-center="center" paths="paths" ng-show="showMap"></leaflet>
 
+      <p>
+            The posts about this topic with the sentiment associated with them
+      </p>
       <div class="tweets">
             <div class="well" ng-repeat="tweet in tweets" ng-class="tweet['sentiment']">
                   <span >{{tweet['text']}}</span>
