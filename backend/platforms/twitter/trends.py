@@ -3,7 +3,7 @@ from pytrends.request import TrendReq
 import os.path
 import pickle
 
-from handler.twitter.twitter_api import appAuth
+from platforms.twitter.twitter_api import appAuth
 from handler.slack import send_report
 
 GOOGLE_USER = {
@@ -16,7 +16,7 @@ LOCATION = {
     'IRELAND': 23424803
 }
 TWITTER_API = appAuth()
-TRENDS_PICKLE = 'handler/utils/pickle/trends.pickle'
+TRENDS_PICKLE = 'platforms/twitter/pickle/trends.pickle'
 
 
 def retrieve_trends():

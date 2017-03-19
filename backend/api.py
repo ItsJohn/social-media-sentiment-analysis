@@ -3,8 +3,9 @@ from requests import put, get
 from flask_restful import Resource, Api, reqparse
 from flask_cors import CORS, cross_origin
 
+from handler.data_utils import format_data
 from download import download_posts
-from platform_utils import platforms
+from platforms.platform_utils import platforms
 import handler.db as db
 from os import environ
 from urllib import parse
@@ -35,10 +36,9 @@ class GetTotalSentimentValue(Resource):
         args = parser.parse_args()
         term = parse.unquote(args['term'])
         stats = db.retrieve_post(term, args['platform'])
-        print(term, args['platform'])
-        if stats['total'] is 0:
+        if len(stats) == 0:
             stats = download_posts(term, args['platform'])
-        return stats
+        return format_data(stats)
 
 
 api.add_resource(Keywords, '/api/keywords')

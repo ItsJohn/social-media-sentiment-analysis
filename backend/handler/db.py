@@ -1,4 +1,3 @@
-from handler.db_utils import format_data
 import json
 import pymongo
 
@@ -93,4 +92,4 @@ def retrieve_post(term: str, platform: str) -> dict:
         data = retrieve_keyword_post_without_platform(term)
     else:
         data = retrieve_keyword_post_with_platform(term, platform)
-    return format_data(data)
+    return data

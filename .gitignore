@@ -4,6 +4,8 @@ backend/handler/classifiers/__pycache__
 backend/handler/twitter/__pycache__
 backend/test/__pycache__
 backend/test/classifiers/__pycache__
+backend/platforms/__pycache__
+backend/platforms/twitter/__pycache__
 
 backend/handler/utils/pickle/*
 !backend/handler/utils/pickle/.gitkeep

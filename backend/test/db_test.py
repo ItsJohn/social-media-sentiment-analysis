@@ -149,67 +149,33 @@ class DB_test(unittest.TestCase):
 
     def test_retrieve_post(self):
         self.data[0]['confidence'] = 1
-        formatted_data = {
-            'newest': '2017-02-01 01:11:11',
-            'latest': '2017-01-01 01:11:11',
-            'graph': {
-                'negative': [{
-                    'x': '2017-02-01 01:11:11',
-                    'y': 1
-                }],
-                'positive': [{
-                    'x': '2017-01-01 01:11:11', 'y': 1
-                }]
-            },
-            'coordinates': [],
-            'total': 2,
-            'tweets': [{
-                'timestamp': '2017-01-01 01:11:11',
-                'text': 'This is a test',
-                'platform': 'Twitter',
-                'keyword': 'OpinionMiningTest',
-                'sentiment': 'positive',
-                'confidence': 1
-            }, {
-                'timestamp': '2017-02-01 01:11:11',
-                'platform': 'Facebook',
-                'text': 'This is another test',
-                'keyword': 'OpinionMiningTest',
-                'sentiment': 'negative'
-            }],
-            'sentiment': {
-                'negative': 1,
-                'positive': 1
-            }
-        }
+        formatted_data = [{
+            'keyword': 'OpinionMiningTest',
+            'text': 'This is a test',
+            'timestamp': '2017-01-01 01:11:11',
+            'platform': 'Twitter',
+            'sentiment': 'positive',
+            'confidence': 1
+        }, {
+            'sentiment': 'negative',
+            'keyword': 'OpinionMiningTest',
+            'text': 'This is another test',
+            'timestamp': '2017-02-01 01:11:11',
+            'platform': 'Facebook'
+        }]
         db.insert_data(self.data)
         self.assertEqual(
             db.retrieve_post('OpinionMiningTest', 'All'),
             formatted_data
         )
-        formatted_data = {
-            'tweets': [{
-                'keyword': 'OpinionMiningTest',
-                'timestamp': '2017-01-01 01:11:11',
-                'sentiment': 'positive',
-                'platform': 'Twitter',
-                'text': 'This is a test',
-                'confidence': 1
-            }],
-            'newest': '2017-01-01 01:11:11',
-            'total': 1,
-            'sentiment': {
-                'positive': 1
-            },
-            'coordinates': [],
-            'graph': {
-                'positive': [{
-                    'x': '2017-01-01 01:11:11',
-                    'y': 1
-                }]
-            },
-            'latest': '2017-01-01 01:11:11'
-        }
+        formatted_data = [{
+            'timestamp': '2017-01-01 01:11:11',
+            'platform': 'Twitter',
+            'keyword': 'OpinionMiningTest',
+            'text': 'This is a test',
+            'sentiment': 'positive',
+            'confidence': 1
+        }]
         self.assertEqual(
             db.retrieve_post('OpinionMiningTest', 'Twitter'),
             formatted_data

@@ -1,21 +1,21 @@
 import sys
 import pickle
 
-from platform_utils import classify_post
-from handler.twitter.trends import load_trends_from_pickle
-from handler.twitter.trends import check_if_trends_already_exist
-from handler.twitter.curr_time import check_hour
-from handler.twitter.curr_time import check_minute
-from handler.twitter.curr_time import get_hour
-from handler.twitter.curr_time import get_minute
-from handler.twitter.tweet_utils import extract_tweet
-from handler.twitter.twitter_api import query_twitter_for_tweets
+from platforms.handler import classify_post
+from platforms.twitter.trends import load_trends_from_pickle
+from platforms.twitter.trends import check_if_trends_already_exist
+from platforms.twitter.curr_time import check_hour
+from platforms.twitter.curr_time import check_minute
+from platforms.twitter.curr_time import get_hour
+from platforms.twitter.curr_time import get_minute
+from platforms.twitter.tweet_utils import extract_tweet
+from platforms.twitter.twitter_api import query_twitter_for_tweets
 
 from handler.slack import send_error_message
 from handler.slack import send_report
 from handler.db import insert_data
 
-PICKLE_PATH = 'handler/utils/pickle/'
+PICKLE_PATH = 'platforms/twitter/pickle/'
 time = {
     'hour': get_hour(),
     'minute': get_minute()
@@ -59,8 +59,7 @@ def download_tweet(trend: dict) -> dict:
         trend['search_word'],
         since_id,
         max_id,
-        use_since,
-        'search'
+        use_since
     )
 
 

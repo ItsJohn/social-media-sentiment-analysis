@@ -1,4 +1,4 @@
-import handler.twitter.download_tweets as dt
+import platforms.twitter.download_tweets as dt
 
 from time import gmtime
 from os import remove

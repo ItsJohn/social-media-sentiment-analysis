@@ -1,10 +1,10 @@
-from handler.db_utils import format_data
+from handler.data_utils import format_data
 
 from datetime import datetime
 import unittest
 
 
-class DB_utils_test(unittest.TestCase):
+class Data_utils_test(unittest.TestCase):
 
     def test_format_data(self):
         data = [{
