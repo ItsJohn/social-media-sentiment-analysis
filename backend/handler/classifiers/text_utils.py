@@ -15,10 +15,24 @@ def eliminate_punctuation(text: str) -> str:
     return text
 
 
-def eliminate_stop_words(text: str) -> list:
+def eliminate_stop_words(word_tokens: list) -> list:
     filtered_sentence = []
-    stop = set(stopwords.words('english'))
-    word_tokens = TweetTokenizer().tokenize(text)
+    exceptions = set((
+        'couldn',
+        'didn',
+        'doesn',
+        'hadn',
+        'hasn',
+        'haven',
+        'mightn',
+        'mustn',
+        'shouldn',
+        'wasn',
+        'weren',
+        'wouldn',
+        'not'
+    ))
+    stop = set(stopwords.words('english')) - exceptions
 
     for w in word_tokens:
         if w not in stop:
@@ -27,20 +41,43 @@ def eliminate_stop_words(text: str) -> list:
     return filtered_sentence
 
 
+def remove_username(text: str) -> str:
+    """
+        Removes Twitter usernames
+        e.g @user
+    """
+    return re.sub('@[^\s]+', '', text)
+
+
+def removes_additional_whitespace(text: str) -> str:
+    return re.sub('[\s]+', ' ', text)
+
+
+def replaces_hashtags_with_word(text: str) -> str:
+    """
+        Replaces hashtags with the word
+        e.g #word -> word
+    """
+    return re.sub(r'#([^\s]+)', r'\1', text)
+
+
+def tokenize(text: str) -> list:
+    """
+        Splits the sentence into tokens
+        e.g ['Splits', 'the', 'sentence', 'into', 'tokens']
+    """
+    return TweetTokenizer().tokenize(text)
+
+
 def process_text(text: str) -> list:
     # Convert to lower case
     text = text.lower()
-    # Removes @username
-    text = re.sub('@[^\s]+', '', text)
-    # Remove additional white spaces
-    text = re.sub('[\s]+', ' ', text)
-    # Replace #word with word
-    text = re.sub(r'#([^\s]+)', r'\1', text)
-    # Eliminates the punctuation
+    text = remove_username(text)
+    text = removes_additional_whitespace(text)
+    text = replaces_hashtags_with_word(text)
     text = eliminate_punctuation(text)
-    # Eliminates the repetitive characters
     text = strip_repetitions_letters(text)
-    # Removes the stop words
-    text = eliminate_stop_words(text)
+    tokenized_text = tokenize(text)
+    tokenized_text = eliminate_stop_words(tokenized_text)
 
-    return text
+    return tokenized_text

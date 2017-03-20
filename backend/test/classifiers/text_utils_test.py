@@ -22,8 +22,8 @@ class Text_Utils_test(unittest.TestCase):
         self.assertEqual(eliminate_punctuation(""), "")
 
     def test_eliminate_stop_words(self):
-        data = "This sentence is not important"
-        format_data = ['This', 'sentence', 'important']
+        data = ['This', 'sentence', 'is', 'not', 'important']
+        format_data = ['This', 'sentence', 'not', 'important']
         self.assertEqual(eliminate_stop_words(data), format_data)
         self.assertEqual(eliminate_stop_words(""), [])
 
