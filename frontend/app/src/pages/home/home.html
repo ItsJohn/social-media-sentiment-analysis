@@ -1,7 +1,7 @@
 
 <div class="search_term_container">
       <div class="trends">
-            <span ng-repeat="trend in trends" ng-show="true" ng-click="keywordSentiment(trend['term'])" class="words" style="color: {{trend['color']}}"> {{trend['term']}} | </span>
+            <span ng-repeat="trend in trends" ng-show="true" ng-click="lock || keywordSentiment(trend['term'])" class="words" style="color: {{trend['color']}}"> {{trend['term']}} | </span>
       </div>
       <form class="centerScreen searchForm">
             <div class="platformContainer">
@@ -10,8 +10,8 @@
                   </label>
             </div>
 
-            <input id="searchTerm" type="text" placeholder="Search Term" class="form-control" ng-model="term.word" />
-            <div ng-click="searchTerm()" class="search_btn">
+            <input id="searchTerm" type="text" placeholder="Search Term" class="form-control" ng-model="term.word" ng-readonly="lock"/>
+            <div ng-click="lock || searchTerm()" class="search_btn">
                   <p>
                         Search Term
                   </p>

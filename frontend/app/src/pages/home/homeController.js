@@ -10,6 +10,7 @@
                   colorPalette = ['#D0CABF', '#DDA185', '#1dc786', '#b470ad', '#42d2ed'];
 
             vm.term = {};
+            vm.lock = false;
 
             function setPlatforms(platforms) {
                   if(platforms.length > 2) {
@@ -51,6 +52,7 @@
                         if(_.isUndefined(vm.term.platform)) {
                               vm.term.platform = 'All';
                         }
+                        vm.lock = true;
                         vm.showMeThisSentiment(vm.term);
                   }
             };

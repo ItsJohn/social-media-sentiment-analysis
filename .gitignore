@@ -6,6 +6,7 @@ backend/test/__pycache__
 backend/test/classifiers/__pycache__
 backend/platforms/__pycache__
 backend/platforms/twitter/__pycache__
+backend/handler/classifiers/text/__pycache__
 
 backend/handler/utils/pickle/*
 !backend/handler/utils/pickle/.gitkeep
@@ -16,8 +17,8 @@ backend/handler/classifiers/.cache
 backend/test/*.pyc
 backend/handler/*.pyc
 
-backend/handler/classifiers/sentiment_files/*
-!backend/handler/classifiers/sentiment_files/.gitkeep
+backend/handler/classifiers/text/sentiment_files/*
+!backend/handler/classifiers/text/sentiment_files/.gitkeep
 
 backend/.cache
 

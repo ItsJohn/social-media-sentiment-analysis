@@ -26,6 +26,10 @@ case "$1" in
       eslint)
             eslint app/
             ;;
+      pep8)
+            cd backend/
+            py.test --pep8
+            ;;
       backend:tests)
             cd backend
             python3 test.py -b
@@ -52,7 +56,7 @@ case "$1" in
             ;;
       classify)
             cd backend
-            python3 -c "from handler.classifiers.sentiment import find_sentiment; find_sentiment()"
+            python3 -c "from handler.sentiment import find_sentiment; find_sentiment()"
             ;;
       convertFile)
             cd backend/handler/classifiers
@@ -61,7 +65,7 @@ case "$1" in
       help)
             echo ""
             echo "./run - To run start the frontend and backend locally"
-            echo "./run server - To run the web server to be viewed $(dig +short myip.opendns.com @resolver1.opendns.com):6639"
+            echo "./run server - To run the web server to be viewed $(dig +short myip.opendns.com @resolver1.opendns.com):8082"
             echo "./run frontend - To start a local frontend server"
             echo "./run backend - To start the backend server"
             echo "./run download - To start the download of your specific platform"
@@ -76,6 +80,7 @@ case "$1" in
             echo "./run unit:tests - To run the frontend unit tests"
             echo "./run eslint - To run the frontend style guide tests"
             echo "./run backend:tests - To run the backend unit tests"
+            echo "./run pep8 - To run the backend style guide tests"
             echo ""
             ;;
       *)
