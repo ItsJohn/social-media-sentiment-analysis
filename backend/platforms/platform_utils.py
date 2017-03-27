@@ -3,7 +3,7 @@
 from platforms.twitter.download_tweets import retrieve_tweets
 from platforms.twitter.twitter_api import query_twitter_for_tweets
 from platforms.twitter.tweet_utils import extract_tweet
-from handler.classifiers.sentiment import classify_data
+from handler.sentiment import classify_data
 
 
 # TODO: Add new platform here

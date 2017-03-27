@@ -4,94 +4,84 @@ from sklearn.svm import LinearSVC
 from handler.classifiers.vote_classifier import VoteClassifier
 
 from sklearn import model_selection
+
 from sklearn.metrics import accuracy_score
 
-from nltk.classify.scikitlearn import SklearnClassifier
-from nltk.classify.util import accuracy
-
-from handler.slack import send_completed_message
-from random import shuffle
-from typing import Union
-import numpy as np
-
+from handler.utilities import save_this
+from handler.utilities import open_this
 import os.path
-import pickle
+
 
 PICKLE_PATH = 'handler/classifiers/pickle/'
 
-classifiers_names = [
-    'Multinomial_Naive_Bayes',
-    'Bernoulli_Naive_Bayes',
-    'Logistic_Regression',
-    'Stochastic_Gradient_Descent',
-    'Linear_SVM'
-]
+# TODO: Change classifiers here
 classifiers = {
-    classifiers_names[0]: MultinomialNB(),
-    classifiers_names[1]: BernoulliNB(),
-    classifiers_names[2]: LogisticRegression(),
-    classifiers_names[3]: SGDClassifier(),
-    classifiers_names[4]: LinearSVC()
+    'Multinomial_Naive_Bayes': MultinomialNB(),
+    'Logistic_Regression': LogisticRegression(),
+    'LinearSVC': LinearSVC()
 }
 
 
 def get_classifier_names():
-    return classifiers_names
+    return list(classifiers.keys())
 
 
 def load_classifier(name):
     if os.path.isfile(PICKLE_PATH + name + '_classifier.pickle'):
-        with open(PICKLE_PATH + name + '_classifier.pickle', 'rb') as ph:
-            classifier = pickle.load(ph)
+        classifier = open_this(PICKLE_PATH + name + '_classifier.pickle')
     else:
-        classifier = SklearnClassifier(classifiers[name])
+        classifier = classifiers[name]
     return classifier
 
 
-def test_classifier(
-    name: str,
-    classifier: VoteClassifier,
-    data: Union[np.array, list]
-):
-    percentage = (accuracy(classifier, data) * 100)
-    print(name, "accuracy percent:", percentage)
-    if name is "Final":
-        send_completed_message(percentage)
-
-
-def train_classifiers(data: Union[np.array, list]):
-    for name in get_classifier_names():
-        classifier = load_classifier(name)
-        print('Training', name, '...')
-        classifier.train(data)
-        with open(
-            PICKLE_PATH + name + '_classifier.pickle',
-            'wb'
-        ) as ph:
-            pickle.dump(classifier, ph)
-
-
-def validate_classifiers(data: Union[np.array, list]):
-    kfold = model_selection.KFold(n_splits=10, shuffle=True, random_state=7)
-    for name in get_classifier_names():
-        classifier = load_classifier(name)
-        print('Training and testing', name, '...')
-        for traincv, testcv in kfold.split(data):
-            classifier.train(data[traincv])
-            test_classifier(name, classifier, data[testcv])
-        with open(
-            PICKLE_PATH + name + '_classifier.pickle',
-            'wb'
-        ) as ph:
-            pickle.dump(classifier, ph)
-
-
-def voted_classifier(data: Union[np.array, list]):
+def build_model():
+    """ Creates a new model using all of the classifiers mentioned above """
     new_models = []
     for name in get_classifier_names():
         classifier = load_classifier(name)
         new_models.append(classifier)
-
-    print('Voting on classifier prediction...')
     classifier = VoteClassifier(new_models)
-    test_classifier("Final", classifier, data)
+    return classifier
+
+
+def fit_classifiers(data: list, classification: list):
+    """ Trains the above classifiers  """
+    for name in get_classifier_names():
+        classifier = load_classifier(name)
+        print('Training', name, '...')
+        classifier.fit(data, classification)
+        save_this(PICKLE_PATH + name + '_classifier.pickle', classifier)
+
+
+def validate_classifiers(data: list, classification: list, classifer, name):
+    """ Uses cross validation to test how the classifiers act on unseen data"""
+    scores = model_selection.cross_val_score(
+        classifer,
+        data,
+        classification,
+        cv=5
+    )
+    print(name, "Accuracy: %0.2f (+/- %0.2f)" % (
+        scores.mean() * 100,
+        scores.std() * 2
+    ))
+
+
+def test_classifier_accuracy(data: list, classification: list):
+    """ Tests the accuracy of the new classifier
+        from the build_model() function """
+    print('Voting on classifier prediction...')
+    classifier = build_model()
+
+    prediction = []
+    for i, value in enumerate(data):
+        prediction.append(classifier.predict(value))
+
+    percentage = accuracy_score(prediction, classification) * 100
+    print("Accuracy percent:", percentage)
+
+
+def predict_classifier(data) -> tuple:
+    """ Predicts the classification of new data """
+    classifier = build_model()
+    return classifier.predict_and_confidence(data)

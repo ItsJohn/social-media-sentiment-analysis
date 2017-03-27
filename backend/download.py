@@ -1,5 +1,5 @@
 from handler.db import insert_data
-from handler.classifiers.sentiment import classify_data
+from handler.sentiment import classify_data
 from platforms.platform_utils import platforms
 from platforms.platform_utils import download_continuously
 from platforms.platform_utils import download_single_set_of_posts

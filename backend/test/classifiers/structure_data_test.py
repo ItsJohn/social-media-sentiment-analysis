@@ -1,4 +1,4 @@
-import handler.classifiers.structure_data as sd
+import handler.classifiers.text.structure_data as sd
 
 import unittest
 from test.utils import sort_tuple_list
@@ -12,39 +12,8 @@ class Structure_data_test(unittest.TestCase):
         sd.PICKLE_PATH = 'test/mock/'
         sd.word_features = ['different', 'word', 'sentence']
 
-    def test_manipulate_data(self):
-        data = [(['This', 'sentence', 'important'], 'nuetral')]
-        format_data = [({
-            'This': False,
-            'sentence': True,
-            'word': False,
-            'important': False,
-            'different': False
-        }, 'nuetral')]
-        self.assertEqual(sd.manipulate_data(data), format_data)
-
-    def test_check_if_words_exist_in_features(self):
-        data = ['This', 'sentence', 'important']
-        format_data = {
-            'sentence': True,
-            'important': False,
-            'This': False,
-            'word': False,
-            'different': False
-        }
-        self.assertEqual(
-            sd.check_if_words_exist_in_features(data),
-            format_data
-        )
-
     def test_open_files(self):
-        format_data = (
-            [(
-                ['sentence', 'file'],
-                'positive'
-            )],
-            ['sentence', 'file']
-        )
+        format_data = (['this is a sentence in a file'], ['positive'])
         self.assertTrue(path.exists(sd.PICKLE_PATH + 'test.txt'))
         self.assertEqual(
             sd.open_files('positive', sd.PICKLE_PATH + 'test.txt'),
@@ -82,13 +51,3 @@ class Structure_data_test(unittest.TestCase):
         #     ), format_data
         # )
         # remove(sd.PICKLE_PATH + "all_words.pickle")
-
-    def test_format_data(self):
-        data = "This sentence is important"
-        format_data = {
-            'different': False,
-            'important': False,
-            'sentence': True,
-            'word': False
-        }
-        self.assertEqual(sd.format_data(data), format_data)

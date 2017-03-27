@@ -8,16 +8,24 @@ class VoteClassifier(ClassifierI):
         self._classifiers = classifiers[0]
 
     def get_classifications(self, features):
+        """
+            Each classifier mentioned in classifier_utils.py
+            in the classifier variable predicts the classification
+            of the features
+        """
         votes = []
         for classifier in self._classifiers:
-            v = classifier.classify(features)
-            votes.append(v)
+            v = classifier.predict(features)
+            votes.extend(v)
+
         return votes
 
-    def classify(self, features):
+    def predict(self, features):
+        """ Predicts the classification and returns the majority vote """
         return mode(self.get_classifications(features))
 
-    def confidence(self, features):
+    def predict_and_confidence(self, features):
+        """ Predicts the classification and creates a confidence level """
         classification = self.get_classifications(features)
         choice_votes = classification.count(mode(classification))
         conf = choice_votes / len(classification)

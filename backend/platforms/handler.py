@@ -1,4 +1,4 @@
-from handler.classifiers.sentiment import find_sentiment
+from handler.sentiment import find_sentiment
 
 
 def classify_post():
