@@ -17,6 +17,9 @@ backend/handler/classifiers/.cache
 backend/test/*.pyc
 backend/handler/*.pyc
 
+backend/handler/classifiers/pickle/*
+!backend/handler/classifiers/pickle/.gitkeep
+
 backend/.cache
 
 .cache
