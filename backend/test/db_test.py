@@ -61,43 +61,6 @@ class DB_test(unittest.TestCase):
         db.insert_sentiment(data[0]['_id'], 'positive', 0.2)
         self.assertEqual(len(db.get_data_for_sentiment()), 0)
 
-    # def test_format_time(self):
-    #     formatted_date = [{
-    #         'keyword': 'OpinionMiningTest',
-    #         'text': 'This is a test',
-    #         'sentiment': 'positive',
-    #         'timestamp': '2017-01-01 01:11:11.387893'
-    #     }, {
-    #         'keyword': 'OpinionMiningTest',
-    #         'text': 'This is another test',
-    #         'sentiment': 'negative',
-    #         'timestamp': '2017-02-01 01:11:11.387893'
-    #     }]
-    #     print('feck', db.format_time(self.data))
-        # self.assertEqual(db.format_time(self.data), formatted_date)
-
-    # def test_format_data(self):
-    #     formatted_data = {
-    #         'tweets': [{
-    #             'timestamp': '2017-01-01 01:11:11.387893',
-    #             'sentiment': 'positive',
-    #             'text': 'This is a test',
-    #             'keyword': 'test'
-    #         }, {
-    #             'timestamp': '2017-02-01 01:11:11.387893',
-    #             'sentiment': 'negative',
-    #             'text': 'This is another test',
-    #             'keyword': 'test'
-    #         }],
-    #         'coordinates': [],
-    #         'sentiment': {
-    #             'negative': 1,
-    #             'positive': 1
-    #         },
-    #         'total': 2
-    #     }
-    #     self.assertEqual(db.format_data(self.data), formatted_data)
-
     def test_retrieve_keyword_post_with_platform(self):
         self.data[0]['confidence'] = 1
         self.data[1]['confidence'] = 0.8
@@ -142,10 +105,6 @@ class DB_test(unittest.TestCase):
             db.retrieve_keyword_post_without_platform('OpinionMiningTest'),
             formatted_data
         )
-
-    # def test_get_keywords(self):
-    #     db.insert_data(self.data)
-    #     self.assertEqual(db.get_keywords(), ['OpinionMiningTest'])
 
     def test_retrieve_post(self):
         self.data[0]['confidence'] = 1

@@ -9,7 +9,7 @@ sc = SlackClient(
 def send_error_message(message: str):
     sc.api_call(
         "chat.postMessage",
-        channel="@johnkellyguitar",
+        channel="@johnkelly",
         text="I'm Broke\n" + message,
         username="Jeffery"
     )
@@ -28,7 +28,7 @@ def format_report(data: dict) -> list:
 def send_report(report: dict):
     sc.api_call(
         "chat.postMessage",
-        channel="@johnkellyguitar",
+        channel="@johnkelly",
         text="You requested a report every 6 hours, this is how we're doing",
         attachments=format_report(report),
         username="Jeffery"
@@ -38,7 +38,7 @@ def send_report(report: dict):
 def send_completed_message(accuracy: int):
     sc.api_call(
         "chat.postMessage",
-        channel="@johnkellyguitar",
+        channel="@johnkelly",
         text="I'm done\nAccuracy: " + str(accuracy) + "%",
         username="Jeffery"
     )

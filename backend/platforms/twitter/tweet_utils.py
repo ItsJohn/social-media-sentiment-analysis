@@ -1,7 +1,5 @@
 from datetime import datetime
-from nltk.tokenize import TweetTokenizer
 import re
-import os.path
 
 
 def extract_tweet(data, keyword):

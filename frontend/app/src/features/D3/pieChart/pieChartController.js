@@ -11,13 +11,6 @@
                   height = vm.radius * 2,
                   width = vm.radius * 2;
 
-                  // margin = {
-                  //       top: 20,
-                  //       right: 100,
-                  //       bottom: 40,
-                  //       left: 25
-                  // };
-
             vm.startPie = function() {
                   vm.container = d3.select('piechart').append('svg')
                         .attr('width', width)
@@ -70,9 +63,6 @@
                               'dy': '.35em',
                               'class': 'fa-thumbs-o-up'
                         });
-                        // .text(function(d) {
-                        //       return d.data.name;
-                        // });
             }
       }
 })();

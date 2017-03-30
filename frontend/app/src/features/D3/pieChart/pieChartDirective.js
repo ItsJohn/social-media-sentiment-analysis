@@ -17,7 +17,6 @@
                         radius: '@'
                   },
                   link:link,
-                  // templateUrl: 'src/features/D3/graph/graph.html',
                   controller: 'pieChartController'
             };
       }
