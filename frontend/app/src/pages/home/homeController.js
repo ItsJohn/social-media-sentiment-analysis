@@ -34,12 +34,12 @@
             });
 
             vm.showMeThisSentiment = function(term) {
-                  vm.term.word = 'This might take a few seconds... Currently looking for opinions regarding ' + term['word'];
-                  $('.form-control').css({'width': 90 + '%', 'text-align': 'center'});
                   homeService.getSentiment(term).then(function(data) {
                         analysisService.setData(data['data'], term['word']);
                         $location.path('analysis');
                   });
+                  $('.form-control').css({'width': 90 + '%', 'text-align': 'center'});
+                  vm.term.word = 'This might take a few seconds... Currently looking for opinions regarding ' + term['word'];
             };
 
             vm.keywordSentiment = function(term) {
