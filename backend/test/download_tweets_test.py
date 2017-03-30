@@ -61,12 +61,6 @@ class Download_Tweet_test(unittest.TestCase):
         }
         self.assertEqual(dt.set_pagination(tweets, trend, 0), formatted_data)
 
-    def test_exit_program(self):
-        dt.PICKLE_PATH = 'test/mock/'
-        dt.exit_program('oh oh', [])
-        self.assertTrue(os.path.isfile(dt.PICKLE_PATH + 'trends.pickle'))
-        remove(dt.PICKLE_PATH + 'trends.pickle')
-
     def test_download_tweet(self):
         trend = {
             'search_word': 'word'
