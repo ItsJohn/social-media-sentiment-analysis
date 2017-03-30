@@ -42,6 +42,8 @@ def exit_program(error: str, trends: list):
     with open(PICKLE_PATH + 'trends.pickle', 'wb') as ph:
         pickle.dump(trends, ph)
     send_error_message(error)
+    print('Attempting to restart...')
+    retrieve_tweets()
 
 
 def download_tweet(trend: dict) -> dict:
