@@ -1,6 +1,3 @@
-from sklearn.naive_bayes import MultinomialNB, BernoulliNB
-from sklearn.linear_model import LogisticRegression, SGDClassifier
-from sklearn.svm import LinearSVC
 from handler.classifiers.vote_classifier import VoteClassifier
 
 from sklearn import model_selection
@@ -12,14 +9,14 @@ from handler.utilities import open_this
 import os.path
 
 
-PICKLE_PATH = 'handler/classifiers/pickle/'
+# TODO: import necessary algorithms
+from handler.classifiers.text.text_classifiers import classifiers
+from sklearn.naive_bayes import MultinomialNB, BernoulliNB
+from sklearn.linear_model import LogisticRegression, SGDClassifier
+from sklearn.svm import LinearSVC
 
-# TODO: Change classifiers here
-classifiers = {
-    'Multinomial_Naive_Bayes': MultinomialNB(),
-    'Logistic_Regression': LogisticRegression(),
-    'LinearSVC': LinearSVC()
-}
+
+PICKLE_PATH = 'handler/classifiers/pickle/'
 
 
 def get_classifier_names():
