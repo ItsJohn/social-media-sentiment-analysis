@@ -41,7 +41,7 @@
                         _.forEach(data['coordinates'], function(coord, i) {
                               vm.paths['c' + i] = {
                                     weight: 2,
-                                    color: '#ff612f',
+                                    color: '#048855',
                                     latlngs: coord,
                                     radius: 10,
                                     type: 'circleMarker'
