@@ -19,35 +19,3 @@ class Structure_data_test(unittest.TestCase):
             sd.open_files('positive', sd.PICKLE_PATH + 'test.txt'),
             format_data
         )
-
-    # def test_getData(self):
-    #     data = sd.PICKLE_PATH + 'test.txt'
-    #     sd.word_features = ['different', 'word', 'sentence']
-    #     format_data = [({
-    #         'file': True,
-    #         'different': False,
-    #         'sentence': False
-    #     }, 'positive')]
-    #     print(sd.getData(positive=data))
-    #     self.assertEqual(
-    #         sd.getData(positive=data),
-    #         format_data
-    #     )
-        # format_data = [({
-        #     'different': False,
-        #     'file': False,
-        #     'word': False,
-        #     'sentence': True
-        # }, 'negative'), ({
-        #     'different': False,
-        #     'file': False,
-        #     'word': False,
-        #     'sentence': True
-        # }, 'positive')]
-        # print(sort_tuple_list(sd.getData(positive=data, negative=data)))
-        # self.assertEqual(
-        #     sort_tuple_list(
-        #         sd.getData(positive=data, negative=data)
-        #     ), format_data
-        # )
-        # remove(sd.PICKLE_PATH + "all_words.pickle")

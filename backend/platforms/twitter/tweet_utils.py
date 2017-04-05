@@ -13,7 +13,6 @@ def extract_tweet(data, keyword):
 
 def strip_json_from_tweet(data, keyword):
     tweet = {}
-    tweet['tweetID'] = data['id']
     tweet['platform'] = 'Twitter'
     tweet['text'] = remove_url(data['text'])
     tweet['timestamp'] = date_created(data['created_at'])
